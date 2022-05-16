@@ -1,0 +1,21 @@
+.nav {
+  grid-area: nav;
+  background-color: powderblue;
+
+  &__menu {
+    list-style: none;
+  }
+
+  &__list {
+    &:not(:last-child) {
+      margin-bottom: 10px;
+    }
+  }
+
+  &__link {
+    text-decoration: none;
+    color: #000;
+  }
+}
+
+

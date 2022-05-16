@@ -1,0 +1,35 @@
+.App {
+    width: 1200px;
+    padding: 0 15px;
+    margin: 0 auto;
+}
+
+.app-wrapper {
+    display: grid;
+    grid-template-areas:
+    "header header"
+    "nav main"
+    "footer footer";
+    grid-template-rows: 60px 1fr;
+    grid-template-columns: 2fr 10fr;
+    grid-gap: 10px;
+}
+
+
+
+
+
+
+
+
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+}

@@ -1,0 +1,15 @@
+.header {
+  grid-area: header;
+  background-color: powderblue;
+  padding: 0 15px;
+
+
+  &__img{
+    display: block;
+    width: 150px;
+    height: 60px;
+
+  }
+}
+
+

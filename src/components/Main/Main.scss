@@ -1,0 +1,11 @@
+.main {
+  grid-area: main;
+  background-color: aliceblue;
+
+  &__bg-img {
+    display: block;
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+  }
+}
