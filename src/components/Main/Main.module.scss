@@ -1,0 +1,13 @@
+.main {
+  grid-area: main;
+  background-color: aliceblue;
+  padding-bottom: 10px;
+}
+
+.bg_img {
+  display: block;
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  margin-bottom: 20px;
+}
