@@ -90,3 +90,8 @@ body{
     clip: rect(0,0,0,0);
     border: 0;
 }
+.main_wrapper{
+    grid-area: main;
+    background-color: aliceblue;
+    padding-bottom: 10px;
+}

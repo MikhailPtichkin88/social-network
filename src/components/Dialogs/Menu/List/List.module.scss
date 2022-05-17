@@ -1,0 +1,51 @@
+.dialog{
+  &:not(:last-child){
+    margin-bottom: 50px;
+  }
+}
+
+.link {
+  position: relative;
+  font-size: 18px;
+  color: #000;
+  text-decoration: none;
+  transition: padding 0.3s linear,
+  background-color 0.3s linear,
+  border 0.3s linear;
+
+  &:before {
+    position: absolute;
+    content: '';
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+    left: -20px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: powderblue;
+    transition:  background-color 0.3s ease;
+  }
+
+  &:hover {
+    padding-left: 10px;
+
+    &:before {
+      background-color: transparent;
+    }
+  }
+
+  &.active {
+    color: black;
+    padding: 10px;
+    border-radius: 6px;
+    background-color: powderblue;
+
+    &:before {
+      background-color: transparent;
+    }
+  }
+}

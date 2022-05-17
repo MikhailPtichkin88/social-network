@@ -4,7 +4,7 @@ import c from './Footer.module.scss'
 const Footer = () => {
     return (
         <>
-            <footer className={c.footer}></footer>
+            <footer className={c.footer}>All rights reserved</footer>
         </>
     );
 };

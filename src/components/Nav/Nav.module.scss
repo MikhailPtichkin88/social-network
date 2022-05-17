@@ -1,7 +1,7 @@
 .nav {
   grid-area: nav;
   background-color: powderblue;
- padding: 20px;
+  padding: 20px;
 }
 
 .menu {
@@ -12,13 +12,36 @@
   &:not(:last-child) {
     margin-bottom: 15px;
   }
-  &:last-child{
+
+  &:last-child {
     margin-top: 30px;
   }
 }
 
 .link {
+  position: relative;
   text-decoration: none;
   color: #000;
   font-size: 18px;
+
+  &:after {
+    position: absolute;
+    content: '';
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: #fff;
+  }
+
+  &.active {
+    
+    &:after {
+      width: 100%;
+    }
+  }
 }
+
+//.link.active {
+//  color: gold;
+//}

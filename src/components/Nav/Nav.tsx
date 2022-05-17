@@ -1,5 +1,6 @@
 import React from 'react';
 import c from './Nav.module.scss'
+import {NavLink} from "react-router-dom";
 
 
 const Nav = () => {
@@ -8,19 +9,19 @@ const Nav = () => {
             <nav className={c.nav}>
                 <ul className={c.menu}>
                     <li className={c.list}>
-                        <a className={c.link} href="#">Profile</a>
+                        <NavLink className={c.link} to="/Profile" activeClassName={c.active}>Profile</NavLink>
                     </li>
                     <li className={c.list}>
-                        <a className={c.link} href="#">Messages</a>
+                        <NavLink className={c.link} to="/Messages" activeClassName={c.active}>Messages</NavLink>
                     </li>
                     <li className={c.list}>
-                        <a className={c.link} href="#">News</a>
+                        <a className={c.link} href="/News">News</a>
                     </li>
                     <li className={c.list}>
-                        <a className={c.link} href="#">Music</a>
+                        <a className={c.link} href="/Music">Music</a>
                     </li>
                     <li className={c.list}>
-                        <a className={c.link} href="#">Settings</a>
+                        <a className={c.link} href="/Settings">Settings</a>
                     </li>
                 </ul>
             </nav>

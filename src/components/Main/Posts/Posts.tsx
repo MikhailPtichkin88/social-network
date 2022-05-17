@@ -3,8 +3,13 @@ import Post from "./Post/Post";
 
 import c from './Posts.module.scss'
 import NewPost from "./NewPost/NewPost";
+import {MyPostsType} from "../Main";
 
-const Posts = () => {
+type PostsPropsType={
+    myPostsData:Array<MyPostsType>
+}
+
+const Posts = (props:PostsPropsType) => {
     return (
         <div className={c.container}>
             <h3 className={c.title}>My Posts</h3>
@@ -12,8 +17,11 @@ const Posts = () => {
             <NewPost/>
 
             <div className={c.post_wrapper}>
-                <Post/>
-                <Post/>
+                {
+                    props.myPostsData.map(t=>{
+                        return <Post message={t.message} likeCount={t.likeCount}/>
+                    })
+                }
 
             </div>
         </div>
