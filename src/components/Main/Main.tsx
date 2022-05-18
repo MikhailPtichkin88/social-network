@@ -3,22 +3,14 @@ import c from './Main.module.scss'
 import bg from "../../images/bg.jpg";
 import Profile from "./Profile/Profile";
 import Posts from "./Posts/Posts";
-import {MessagesDataType} from "../Dialogs/Dialogs";
+import {PostsType} from "../../redux/state";
 
 
-export type MyPostsType = {
-    id: string
-    message: string
-    likeCount: number
+type ProfilePostsPropsType ={
+    profilePosts:Array<PostsType>
 }
 
-let myPostsData: Array<MyPostsType> = [
-    {id: "1", message: 'Hey!', likeCount:2},
-    {id: "2", message: 'second post', likeCount:4},
-    {id: "3", message: 'How are you?', likeCount:5}
-]
-
-const Main = () => {
+const Main = (props:ProfilePostsPropsType) => {
     return (
         <>
             <main className={c.main}>
@@ -27,7 +19,7 @@ const Main = () => {
 
                 <Profile/>
 
-                <Posts myPostsData={myPostsData}/>
+                <Posts myPostsData={props.profilePosts}/>
 
             </main>
         </>

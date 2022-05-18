@@ -1,11 +1,12 @@
 import React from 'react';
 import c from "./Menu.module.scss";
 import List from "./List/List";
-import {MenuItemsType} from "../Dialogs";
+import {DialogsType} from "../../../redux/state";
+
 
 
 type MenuPropsType = {
-    menuItemsData: Array<MenuItemsType>
+    menuItemsData: Array<DialogsType>
 }
 
 const Menu = (props:MenuPropsType) => {

@@ -7,18 +7,28 @@ import Main from "./components/Main/Main";
 import Footer from "./components/Footer/Footer";
 import {BrowserRouter, Route} from "react-router-dom";
 import Dialogs from "./components/Dialogs/Dialogs";
+import {AvatarsType, DialogsType, MessageType, PostsType, RootStateType} from "./redux/state";
 
-function App() {
+
+type AppPropsType={
+    state:RootStateType
+}
+function App(props:AppPropsType) {
+    let profilePosts:Array<PostsType> = props.state.profilePage.posts
+    let menuDialogs: Array<DialogsType> = props.state.dialogPage.dialogs
+    let dialogMessages: Array<MessageType> = props.state.dialogPage.messages
+    let sidebarAvatars: Array<AvatarsType> = props.state.sidebar.avatars
+
     return (
         <BrowserRouter>
             <div className="App app-wrapper">
 
                 <Header/>
 
-                <Nav/>
+                <Nav sidebarAvatars={sidebarAvatars}/>
                 <div className="main_wrapper">
-                    <Route path={'/Profile'} render={()=> <Main/>}/>
-                    <Route path={'/Messages'} render={()=><Dialogs/>}/>
+                    <Route path={'/Profile'} render={()=> <Main profilePosts={profilePosts}/>}/>
+                    <Route path={'/Messages'} render={()=><Dialogs menuDialogs={menuDialogs} dialogMessages={dialogMessages}/>}/>
                 </div>
                 <Footer/>
             </div>

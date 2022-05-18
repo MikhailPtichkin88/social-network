@@ -1,9 +1,14 @@
 import React from 'react';
 import c from './Nav.module.scss'
 import {NavLink} from "react-router-dom";
+import Sidebar from "./Sidebar/Sidebar";
+import {AvatarsType} from "../../redux/state";
 
+export type SidebarAvatarsPropsType = {
+    sidebarAvatars:Array<AvatarsType>
+}
 
-const Nav = () => {
+const Nav = (props:SidebarAvatarsPropsType) => {
     return (
         <>
             <nav className={c.nav}>
@@ -24,6 +29,9 @@ const Nav = () => {
                         <a className={c.link} href="/Settings">Settings</a>
                     </li>
                 </ul>
+
+                <Sidebar sidebarAvatars={props.sidebarAvatars}/>
+
             </nav>
         </>
     );

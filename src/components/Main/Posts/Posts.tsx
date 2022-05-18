@@ -3,10 +3,11 @@ import Post from "./Post/Post";
 
 import c from './Posts.module.scss'
 import NewPost from "./NewPost/NewPost";
-import {MyPostsType} from "../Main";
+import {PostsType} from "../../../redux/state";
+
 
 type PostsPropsType={
-    myPostsData:Array<MyPostsType>
+    myPostsData:Array<PostsType>
 }
 
 const Posts = (props:PostsPropsType) => {

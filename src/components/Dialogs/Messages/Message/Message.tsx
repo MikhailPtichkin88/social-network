@@ -1,12 +1,16 @@
 import React from 'react';
 import c from "./Message.module.scss";
 import avatar from "../../../../images/avatar.jpg";
-import {MessagesDataType} from "../../Dialogs";
 
 
 
+type MessagePropsType = {
+    id: string
+    author: string
+    message: string
+}
 
-const Message = (props:MessagesDataType) => {
+const Message = (props:MessagePropsType) => {
     return (
         <>
             <div className={c.post}>
