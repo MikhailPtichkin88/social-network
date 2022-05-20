@@ -24,6 +24,7 @@ export type ProfilePageType = {
 export type DialogPageType = {
     dialogs: Array<DialogsType>
     messages: Array<MessageType>
+    newMessageText:string
 }
 
 export type AvatarsType = {
@@ -73,7 +74,8 @@ let state: RootStateType = {
             {id: "6", author: "Victor", message: 'Hey!'},
             {id: "7", author: "Igor", message: 'Hey!'},
             {id: "8", author: "Evgraf", message: 'Hey!'}
-        ]
+        ],
+        newMessageText: ""
     },
     sidebar: {
         avatars: [
@@ -98,6 +100,22 @@ state.profilePage.posts.push(newPost);
 
 export let changeNewPostText = (textMessage:string) => {
     state.profilePage.newPostText = textMessage
+    rerenderEntireTree(state);
+}
+
+export let changeNewMessageText = (textMessage:string) => {
+    state.dialogPage.newMessageText = textMessage
+    rerenderEntireTree(state);
+}
+
+export let addMessage = (message:string) => {
+    let newMessage:MessageType = {
+        id:'5',
+        author: "Me",
+        message: message
+    }
+
+    state.dialogPage.messages.push(newMessage)
     rerenderEntireTree(state);
 }
 

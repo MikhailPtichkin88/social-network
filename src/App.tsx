@@ -7,13 +7,23 @@ import Main from "./components/Main/Main";
 import Footer from "./components/Footer/Footer";
 import {BrowserRouter, Route} from "react-router-dom";
 import Dialogs from "./components/Dialogs/Dialogs";
-import {AvatarsType,  DialogsType, MessageType, PostsType, RootStateType} from "./redux/state";
+import {
+    addMessage,
+    AvatarsType,
+    changeNewMessageText,
+    DialogsType,
+    MessageType,
+    PostsType,
+    RootStateType
+} from "./redux/state";
 
 
 type AppPropsType={
     state:RootStateType
     addPost: (postMessage:string) => void
     changeNewPostText: (textMessage:string) => void
+    changeNewMessageText:  (textMessage:string) => void
+    addMessage:(message:string) => void
 }
 
 function App(props:AppPropsType) {
@@ -22,6 +32,7 @@ function App(props:AppPropsType) {
     let menuDialogs: Array<DialogsType> = props.state.dialogPage.dialogs
     let dialogMessages: Array<MessageType> = props.state.dialogPage.messages
     let sidebarAvatars: Array<AvatarsType> = props.state.sidebar.avatars
+    let newMessageText: string = props.state.dialogPage.newMessageText
 
 
 
@@ -37,7 +48,11 @@ function App(props:AppPropsType) {
                                                                 profilePosts={profilePosts}
                                                                 profilePostText={profilePostText}
                                                                 changeNewPostText={props.changeNewPostText}/>}/>
-                    <Route path={'/Messages'} render={()=><Dialogs menuDialogs={menuDialogs} dialogMessages={dialogMessages}/>}/>
+                    <Route path={'/Messages'} render={()=><Dialogs menuDialogs={menuDialogs}
+                                                                   dialogMessages={dialogMessages}
+                                                                   newMessageText={newMessageText}
+                                                                   changeNewMessageText={changeNewMessageText}
+                                                                   addMessage={props.addMessage}/>}/>
                 </div>
                 <Footer/>
             </div>

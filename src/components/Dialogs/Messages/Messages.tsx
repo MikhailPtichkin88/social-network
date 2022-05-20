@@ -7,6 +7,9 @@ import NewMessage from "./NewMessage/NewMessage";
 
 export type MessagesPropsType = {
     messagesData: Array<MessageType>
+    newMessageText: string
+    changeNewMessageText:  (textMessage:string) => void
+    addMessage:(message:string) => void
 }
 
 const Messages = (props:MessagesPropsType) => {
@@ -17,7 +20,9 @@ const Messages = (props:MessagesPropsType) => {
                 props.messagesData.map(t =>{
                     return <Message author={t.author} message={t.message} id={t.id}/>                })
             }
-            <NewMessage/>
+            <NewMessage newMessageText={props.newMessageText}
+                        changeNewMessageText={props.changeNewMessageText}
+                        addMessage={props.addMessage}/>
         </div>
 
     );
