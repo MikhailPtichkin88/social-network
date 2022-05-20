@@ -1,6 +1,6 @@
 import React from 'react';
 import c from "./Message.module.scss";
-import avatar from "../../../../images/avatar.jpg";
+import avatar from "../../../../images/avatars/Andrew.svg";
 
 
 

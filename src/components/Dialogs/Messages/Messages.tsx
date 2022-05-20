@@ -1,8 +1,8 @@
 import React from 'react';
 import c from './Messages.module.scss'
-import Post from "../../Main/Posts/Post/Post";
 import Message from "./Message/Message";
 import {MessageType} from "../../../redux/state";
+import NewMessage from "./NewMessage/NewMessage";
 
 
 export type MessagesPropsType = {
@@ -17,7 +17,9 @@ const Messages = (props:MessagesPropsType) => {
                 props.messagesData.map(t =>{
                     return <Message author={t.author} message={t.message} id={t.id}/>                })
             }
+            <NewMessage/>
         </div>
+
     );
 };
 

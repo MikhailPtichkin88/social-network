@@ -7,17 +7,23 @@ import Main from "./components/Main/Main";
 import Footer from "./components/Footer/Footer";
 import {BrowserRouter, Route} from "react-router-dom";
 import Dialogs from "./components/Dialogs/Dialogs";
-import {AvatarsType, DialogsType, MessageType, PostsType, RootStateType} from "./redux/state";
+import {AvatarsType,  DialogsType, MessageType, PostsType, RootStateType} from "./redux/state";
 
 
 type AppPropsType={
     state:RootStateType
+    addPost: (postMessage:string) => void
+    changeNewPostText: (textMessage:string) => void
 }
+
 function App(props:AppPropsType) {
     let profilePosts:Array<PostsType> = props.state.profilePage.posts
+    let profilePostText:string = props.state.profilePage.newPostText
     let menuDialogs: Array<DialogsType> = props.state.dialogPage.dialogs
     let dialogMessages: Array<MessageType> = props.state.dialogPage.messages
     let sidebarAvatars: Array<AvatarsType> = props.state.sidebar.avatars
+
+
 
     return (
         <BrowserRouter>
@@ -27,7 +33,10 @@ function App(props:AppPropsType) {
 
                 <Nav sidebarAvatars={sidebarAvatars}/>
                 <div className="main_wrapper">
-                    <Route path={'/Profile'} render={()=> <Main profilePosts={profilePosts}/>}/>
+                    <Route path={'/Profile'} render={()=> <Main addPost={props.addPost}
+                                                                profilePosts={profilePosts}
+                                                                profilePostText={profilePostText}
+                                                                changeNewPostText={props.changeNewPostText}/>}/>
                     <Route path={'/Messages'} render={()=><Dialogs menuDialogs={menuDialogs} dialogMessages={dialogMessages}/>}/>
                 </div>
                 <Footer/>
