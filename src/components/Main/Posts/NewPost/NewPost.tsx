@@ -1,21 +1,28 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent} from 'react';
 import c from "./NewPost.module.scss";
+import {
+    ActionsType,
+} from "../../../../redux/state";
+import {addPostActionCreator, changePostActionCreator} from "../../../../redux/profile-reducer";
 
 type NewPostType = {
-    addPost: (postMessage:string) => void
-    profilePostText:string
-    changeNewPostText: (textMessage:string) => void
+    profilePostText: string
+    dispatch: (action: ActionsType) => void
 }
-const NewPost = (props:NewPostType) => {
-    // const [value, setValue] = useState('');
-let newPostElement = React.createRef<HTMLTextAreaElement>()
+
+const NewPost = (props: NewPostType) => {
+
+    let newPostElement = React.createRef<HTMLTextAreaElement>()
+
     let addPost = () => {
-    let text = newPostElement.current ? newPostElement.current.value : ""
-        props.addPost(text)
+        let text = newPostElement.current ? newPostElement.current.value : ""
+        props.dispatch(addPostActionCreator(text))
     }
-    const onChangeInputHandler = (e:ChangeEvent<HTMLTextAreaElement>) => {
-    props.changeNewPostText(e.currentTarget.value)
+
+    const onChangeInputHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        props.dispatch(changePostActionCreator(e.currentTarget.value))
     }
+
     return (
         <>
             <form className={c.form} action="src/components/Main/Main#">
@@ -27,9 +34,10 @@ let newPostElement = React.createRef<HTMLTextAreaElement>()
                           id='message'
                           name='message'
                           placeholder="your news"/>
-                <button  className={c.submit}
-                         onClick={addPost}
-                         type="button">Add Post</button>
+                <button className={c.submit}
+                        onClick={addPost}
+                        type="button">Add Post
+                </button>
             </form>
         </>
     );

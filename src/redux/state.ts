@@ -1,5 +1,6 @@
-
-import {rerenderEntireTree} from "../render";
+import profileReducer, {addPostActionCreatorType, changePostActionCreatorType} from "./profile-reducer";
+import dialogsReducer from "./dialogs-reducer";
+import sidebarReducer from "./sidebar-reducer";
 
 export type MessageType = {
     id: string
@@ -18,13 +19,13 @@ export type PostsType = {
 
 export type ProfilePageType = {
     posts: Array<PostsType>
-    newPostText:string
+    newPostText: string
 }
 
 export type DialogPageType = {
     dialogs: Array<DialogsType>
     messages: Array<MessageType>
-    newMessageText:string
+    newMessageText: string
 }
 
 export type AvatarsType = {
@@ -43,80 +44,98 @@ export type RootStateType = {
     sidebar: SidebarType
 }
 
-let state: RootStateType = {
-    profilePage: {
-        posts: [
-            {id: "1", message: 'Hey!', likeCount: 2},
-            {id: "2", message: 'second post', likeCount: 4},
-            {id: "3", message: 'How are you?', likeCount: 5}
-        ],
-        newPostText: ""
+export type AddMsgActionType = {
+    type: "ADD-MSG"
+    message: string
+}
+
+export type ChangeMsgTextType = {
+    type: "CHANGE-MSG-TEXT"
+    textMessage: string
+}
+
+export type ActionsType = addPostActionCreatorType | changePostActionCreatorType | AddMsgActionType | ChangeMsgTextType
+
+
+export type StoreType = {
+    _state: RootStateType
+    _rerender: () => void
+    subscribe: (callback: () => void) => void
+    getState: () => RootStateType
+    dispatch: (action: ActionsType) => void
+}
+
+const store: StoreType = {
+
+    _state: {
+        profilePage: {
+            posts: [
+                {id: "1", message: 'Hey!', likeCount: 2},
+                {id: "2", message: 'second post', likeCount: 4},
+                {id: "3", message: 'How are you?', likeCount: 5}
+            ],
+            newPostText: ""
+        },
+
+        dialogPage: {
+            dialogs: [
+                {id: "1", name: "Andrew"},
+                {id: "2", name: "Dmitry"},
+                {id: "3", name: "Sasha"},
+                {id: "4", name: "Sveta"},
+                {id: "5", name: "Valera"},
+                {id: "6", name: "Victor"},
+                {id: "7", name: "Igor"},
+                {id: "8", name: "Evgraf"}
+            ],
+
+            messages: [
+                {id: "1", author: "Andrew", message: 'Hey!'},
+                {id: "2", author: "Dmitry", message: 'Hey!'},
+                {id: "3", author: "Sasha", message: 'Hey!'},
+                {id: "4", author: "Sveta", message: 'Hey!'},
+                {id: "5", author: "Valera", message: 'Hey!'},
+                {id: "6", author: "Victor", message: 'Hey!'},
+                {id: "7", author: "Igor", message: 'Hey!'},
+                {id: "8", author: "Evgraf", message: 'Hey!'}
+            ],
+            newMessageText: ""
+        },
+        sidebar: {
+            avatars: [
+                {id: "1", friend: "Andrew", avatar: '/images/avatars/Andrew.svg'},
+                {id: "2", friend: "Dmitry", avatar: '/images/avatars/Dmitry.svg'},
+                {id: "3", friend: "Sasha", avatar: '/images/avatars/Sasha.svg'},
+            ]
+        }
     },
 
-    dialogPage: {
-        dialogs: [
-            {id: "1", name: "Andrew"},
-            {id: "2", name: "Dmitry"},
-            {id: "3", name: "Sasha"},
-            {id: "4", name: "Sveta"},
-            {id: "5", name: "Valera"},
-            {id: "6", name: "Victor"},
-            {id: "7", name: "Igor"},
-            {id: "8", name: "Evgraf"}
-        ],
-
-        messages: [
-            {id: "1", author: "Andrew", message: 'Hey!'},
-            {id: "2", author: "Dmitry", message: 'Hey!'},
-            {id: "3", author: "Sasha", message: 'Hey!'},
-            {id: "4", author: "Sveta", message: 'Hey!'},
-            {id: "5", author: "Valera", message: 'Hey!'},
-            {id: "6", author: "Victor", message: 'Hey!'},
-            {id: "7", author: "Igor", message: 'Hey!'},
-            {id: "8", author: "Evgraf", message: 'Hey!'}
-        ],
-        newMessageText: ""
+    _rerender() {
+        console.log('state changed')
     },
-    sidebar: {
-        avatars: [
-            {id: "1", friend: "Andrew", avatar: '/images/avatars/Andrew.svg'},
-            {id: "2", friend: "Dmitry", avatar: '/images/avatars/Dmitry.svg'},
-            {id: "3", friend: "Sasha", avatar: '/images/avatars/Sasha.svg'},
-        ]
+
+    subscribe(callback) {
+        this._rerender = callback
+    },
+
+    getState() {
+        return this._state
+    },
+
+    dispatch(action) {
+
+        this._state.profilePage = profileReducer(this._state.profilePage, action)
+        this._state.dialogPage = dialogsReducer(this._state.dialogPage, action)
+        this._state.sidebar = sidebarReducer(this._state.sidebar, action)
+        this._rerender();
+
     }
 }
 
 
-export let addPost = (postMessage:string) => {
-    let newPost:PostsType = {
-        id:'5',
-        message: postMessage,
-        likeCount: 0
-    }
+//typeof
 
-state.profilePage.posts.push(newPost);
-    rerenderEntireTree(state);
-}
 
-export let changeNewPostText = (textMessage:string) => {
-    state.profilePage.newPostText = textMessage
-    rerenderEntireTree(state);
-}
 
-export let changeNewMessageText = (textMessage:string) => {
-    state.dialogPage.newMessageText = textMessage
-    rerenderEntireTree(state);
-}
 
-export let addMessage = (message:string) => {
-    let newMessage:MessageType = {
-        id:'5',
-        author: "Me",
-        message: message
-    }
-
-    state.dialogPage.messages.push(newMessage)
-    rerenderEntireTree(state);
-}
-
-export default state;
+export default store;

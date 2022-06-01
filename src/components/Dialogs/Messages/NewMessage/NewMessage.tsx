@@ -1,21 +1,24 @@
 import React, {ChangeEvent} from 'react';
 import c from "./NewMessage.module.scss";
+import {
+    ActionsType,
+} from "../../../../redux/state";
+import {addMsgActionCreator, changeMsgActionCreator} from "../../../../redux/dialogs-reducer";
 
-type NewMessagePropsType={
-    newMessageText:string
-    changeNewMessageText:  (textMessage:string) => void
-    addMessage:(message:string) => void
+type NewMessagePropsType = {
+    newMessageText: string
+    dispatch: (action: ActionsType) => void
 }
 
-const NewMessage = (props:NewMessagePropsType) => {
+const NewMessage = (props: NewMessagePropsType) => {
     let newMessageElement = React.createRef<HTMLTextAreaElement>()
-    let AddMessage = () => {
 
-       props.addMessage(props.newMessageText)
+    let AddMessage = () => {
+        props.dispatch(addMsgActionCreator(props.newMessageText))
     }
 
-    const onChangeHandler = (e:ChangeEvent<HTMLTextAreaElement>) => {
-        props.changeNewMessageText(e.currentTarget.value)
+    const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        props.dispatch(changeMsgActionCreator(e.currentTarget.value))
     }
 
     return (

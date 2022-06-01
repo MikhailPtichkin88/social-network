@@ -2,14 +2,13 @@ import React from 'react';
 import c from './Dialogs.module.scss'
 import Menu from "./Menu/Menu";
 import Messages from "./Messages/Messages";
-import {DialogsType, MessageType} from "../../redux/state";
+import {ActionsType, DialogsType, MessageType} from "../../redux/state";
 
 type DialogsPropsType = {
     menuDialogs: Array<DialogsType>
     dialogMessages: Array<MessageType>
     newMessageText: string
-    changeNewMessageText:  (textMessage:string) => void
-    addMessage:(message:string) => void
+    dispatch: (action: ActionsType) => void
 }
 
 const Dialogs = (props:DialogsPropsType) => {
@@ -18,8 +17,7 @@ const Dialogs = (props:DialogsPropsType) => {
             <Menu menuItemsData={props.menuDialogs}/>
             <Messages messagesData={props.dialogMessages}
                       newMessageText={props.newMessageText}
-                      changeNewMessageText={props.changeNewMessageText}
-                      addMessage={props.addMessage}/>
+                      dispatch={props.dispatch}/>
         </div>
     );
 };

@@ -3,14 +3,13 @@ import c from './Main.module.scss'
 import bg from "../../images/bg.jpg";
 import Profile from "./Profile/Profile";
 import Posts from "./Posts/Posts";
-import {PostsType} from "../../redux/state";
+import {ActionsType, PostsType} from "../../redux/state";
 
 
 type ProfilePostsPropsType ={
     profilePosts:Array<PostsType>
-    addPost: (postMessage:string) => void
     profilePostText:string
-    changeNewPostText: (textMessage:string) => void
+    dispatch: (action: ActionsType) => void
 }
 
 const Main = (props:ProfilePostsPropsType) => {
@@ -22,11 +21,9 @@ const Main = (props:ProfilePostsPropsType) => {
 
                 <Profile/>
 
-                <Posts addPost={props.addPost}
+                <Posts dispatch={props.dispatch}
                        profilePostText={props.profilePostText}
-                       myPostsData={props.profilePosts}
-                       changeNewPostText={props.changeNewPostText}/>
-
+                       myPostsData={props.profilePosts}/>
             </main>
         </>
     );

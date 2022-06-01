@@ -7,32 +7,22 @@ import Main from "./components/Main/Main";
 import Footer from "./components/Footer/Footer";
 import {BrowserRouter, Route} from "react-router-dom";
 import Dialogs from "./components/Dialogs/Dialogs";
-import {
-    addMessage,
-    AvatarsType,
-    changeNewMessageText,
-    DialogsType,
-    MessageType,
-    PostsType,
-    RootStateType
-} from "./redux/state";
+import {AvatarsType, DialogsType, MessageType, PostsType, StoreType} from "./redux/state";
+
 
 
 type AppPropsType={
-    state:RootStateType
-    addPost: (postMessage:string) => void
-    changeNewPostText: (textMessage:string) => void
-    changeNewMessageText:  (textMessage:string) => void
-    addMessage:(message:string) => void
+  store:StoreType
 }
 
-function App(props:AppPropsType) {
-    let profilePosts:Array<PostsType> = props.state.profilePage.posts
-    let profilePostText:string = props.state.profilePage.newPostText
-    let menuDialogs: Array<DialogsType> = props.state.dialogPage.dialogs
-    let dialogMessages: Array<MessageType> = props.state.dialogPage.messages
-    let sidebarAvatars: Array<AvatarsType> = props.state.sidebar.avatars
-    let newMessageText: string = props.state.dialogPage.newMessageText
+const App: React.FC<AppPropsType> = (props) => {
+    const state = props.store.getState()
+    let profilePosts:Array<PostsType> = state.profilePage.posts
+    let profilePostText:string = state.profilePage.newPostText
+    let menuDialogs: Array<DialogsType> = state.dialogPage.dialogs
+    let dialogMessages: Array<MessageType> = state.dialogPage.messages
+    let sidebarAvatars: Array<AvatarsType> = state.sidebar.avatars
+    let newMessageText: string = state.dialogPage.newMessageText
 
 
 
@@ -44,15 +34,16 @@ function App(props:AppPropsType) {
 
                 <Nav sidebarAvatars={sidebarAvatars}/>
                 <div className="main_wrapper">
-                    <Route path={'/Profile'} render={()=> <Main addPost={props.addPost}
+
+                    <Route path={'/Profile'} render={()=> <Main dispatch={props.store.dispatch.bind(props.store)}
                                                                 profilePosts={profilePosts}
-                                                                profilePostText={profilePostText}
-                                                                changeNewPostText={props.changeNewPostText}/>}/>
+                                                                profilePostText={profilePostText}/>}/>
+
                     <Route path={'/Messages'} render={()=><Dialogs menuDialogs={menuDialogs}
                                                                    dialogMessages={dialogMessages}
                                                                    newMessageText={newMessageText}
-                                                                   changeNewMessageText={changeNewMessageText}
-                                                                   addMessage={props.addMessage}/>}/>
+                                                                   dispatch={props.store.dispatch.bind(props.store)}
+                                                                   />}/>
                 </div>
                 <Footer/>
             </div>
