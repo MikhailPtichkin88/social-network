@@ -1,8 +1,9 @@
 import React from 'react';
 import c from './Messages.module.scss'
 import Message from "./Message/Message";
-import {ActionsType, MessageType} from "../../../redux/state";
+import {ActionsType, MessageType} from "../../../redux/store";
 import NewMessage from "./NewMessage/NewMessage";
+import NewMessageContainer from "./NewMessage/NewMessageContainer";
 
 
 export type MessagesPropsType = {
@@ -19,7 +20,7 @@ const Messages = (props:MessagesPropsType) => {
                 props.messagesData.map(t =>{
                     return <Message author={t.author} message={t.message} id={t.id}/>                })
             }
-            <NewMessage newMessageText={props.newMessageText}
+            <NewMessageContainer newMessageText={props.newMessageText}
                         dispatch={props.dispatch}/>
         </div>
 

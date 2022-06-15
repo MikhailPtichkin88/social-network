@@ -3,7 +3,8 @@ import Post from "./Post/Post";
 
 import c from './Posts.module.scss'
 import NewPost from "./NewPost/NewPost";
-import {ActionsType, PostsType} from "../../../redux/state";
+import {ActionsType, PostsType} from "../../../redux/store";
+import NewPostContainer from "./NewPost/NewPostContainer";
 
 
 type PostsPropsType={
@@ -17,7 +18,7 @@ const Posts = (props:PostsPropsType) => {
         <div className={c.container}>
             <h3 className={c.title}>My Posts</h3>
 
-            <NewPost dispatch={props.dispatch}
+            <NewPostContainer dispatch={props.dispatch}
                 profilePostText={props.profilePostText}/>
 
             <div className={c.post_wrapper}>

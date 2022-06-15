@@ -1,13 +1,11 @@
 import React, {ChangeEvent} from 'react';
 import c from "./NewPost.module.scss";
-import {
-    ActionsType,
-} from "../../../../redux/state";
-import {addPostActionCreator, changePostActionCreator} from "../../../../redux/profile-reducer";
+
 
 type NewPostType = {
     profilePostText: string
-    dispatch: (action: ActionsType) => void
+    updateText: (value:string)=>void
+    addNewPost:(text:string)=>void
 }
 
 const NewPost = (props: NewPostType) => {
@@ -16,11 +14,11 @@ const NewPost = (props: NewPostType) => {
 
     let addPost = () => {
         let text = newPostElement.current ? newPostElement.current.value : ""
-        props.dispatch(addPostActionCreator(text))
+        props.addNewPost(text)
     }
 
     const onChangeInputHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.dispatch(changePostActionCreator(e.currentTarget.value))
+        props.updateText(e.currentTarget.value)
     }
 
     return (

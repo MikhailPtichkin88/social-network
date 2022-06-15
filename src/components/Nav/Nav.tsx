@@ -2,7 +2,7 @@ import React from 'react';
 import c from './Nav.module.scss'
 import {NavLink} from "react-router-dom";
 import Sidebar from "./Sidebar/Sidebar";
-import {AvatarsType} from "../../redux/state";
+import {AvatarsType} from "../../redux/store";
 
 export type SidebarAvatarsPropsType = {
     sidebarAvatars:Array<AvatarsType>

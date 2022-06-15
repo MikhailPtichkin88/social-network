@@ -3,7 +3,7 @@ import c from './Main.module.scss'
 import bg from "../../images/bg.jpg";
 import Profile from "./Profile/Profile";
 import Posts from "./Posts/Posts";
-import {ActionsType, PostsType} from "../../redux/state";
+import {ActionsType, PostsType} from "../../redux/store";
 
 
 type ProfilePostsPropsType ={

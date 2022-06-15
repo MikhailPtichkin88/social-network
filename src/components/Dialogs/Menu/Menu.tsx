@@ -1,7 +1,7 @@
 import React from 'react';
 import c from "./Menu.module.scss";
 import List from "./List/List";
-import {DialogsType} from "../../../redux/state";
+import {DialogsType} from "../../../redux/store";
 
 
 
