@@ -2,7 +2,7 @@ import React from 'react';
 import c from './Nav.module.scss'
 import {NavLink} from "react-router-dom";
 import Sidebar from "./Sidebar/Sidebar";
-import {AvatarsType} from "../../redux/store";
+import {AvatarsType} from "../../redux/types";
 
 export type SidebarAvatarsPropsType = {
     sidebarAvatars:Array<AvatarsType>
@@ -14,19 +14,22 @@ const Nav = (props:SidebarAvatarsPropsType) => {
             <nav className={c.nav}>
                 <ul className={c.menu}>
                     <li className={c.list}>
-                        <NavLink className={c.link} to="/Profile" activeClassName={c.active}>Profile</NavLink>
+                        <NavLink className={c.link} to="/profile" activeClassName={c.active}>Profile</NavLink>
                     </li>
                     <li className={c.list}>
-                        <NavLink className={c.link} to="/Messages" activeClassName={c.active}>Messages</NavLink>
+                        <NavLink className={c.link} to="/messages" activeClassName={c.active}>Messages</NavLink>
                     </li>
                     <li className={c.list}>
-                        <a className={c.link} href="/News">News</a>
+                        <a className={c.link} href="/news">News</a>
                     </li>
                     <li className={c.list}>
-                        <a className={c.link} href="/Music">Music</a>
+                        <a className={c.link} href="/music">Music</a>
                     </li>
                     <li className={c.list}>
-                        <a className={c.link} href="/Settings">Settings</a>
+                        <a className={c.link} href="/users">Users</a>
+                    </li>
+                    <li className={c.list}>
+                        <a className={c.link} href="/settings">Settings</a>
                     </li>
                 </ul>
 

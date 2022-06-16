@@ -1,0 +1,92 @@
+.wrapper {
+  display: flex;
+  padding: 5px;
+  width: 500px;
+}
+
+.photo_info {
+  margin-right: 20px;
+  width: 80px;
+}
+
+.photo_img {
+  display: block;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.label {
+  position: relative;
+  display: block;
+  min-height: 20px;
+  z-index: 1;
+
+  &::after {
+    position: absolute;
+    content: 'Follow';
+    padding: 4px;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70px;
+    height: 20px;
+    background-color: aliceblue;
+    color: #000;
+    text-align: center;
+    font-size: 12px;
+    transition: all 0.3s;
+    z-index: 2;
+    border-radius: 5px;
+    border: 1px solid powderblue;
+  }
+}
+
+.is_followed_btn {
+  position: absolute;
+  opacity: 0;
+  z-index: -1;
+
+  &:checked + .label {
+    &::after {
+      content: 'Unfollow';
+      background-color: powderblue;
+      color: #000;
+    }
+  }
+}
+
+.info {
+  padding: 20px;
+  width: 70%;
+  height: 100px;
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid powderblue;
+  border-radius: 15px;
+}
+
+.left {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.name {
+  font-size: 18px;
+}
+
+.status {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.right {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+

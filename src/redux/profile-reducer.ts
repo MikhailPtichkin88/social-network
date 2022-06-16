@@ -1,14 +1,15 @@
 import {
     ActionsType,
     PostsType, ProfilePageType,
-} from "./store";
+} from "./types";
+import {v1} from "uuid";
 
 
 let initialState:ProfilePageType = {
         posts: [
-            {id: "1", message: 'Hey!', likeCount: 2},
-            {id: "2", message: 'second post', likeCount: 4},
-            {id: "3", message: 'How are you?', likeCount: 5}
+            {id: v1(), message: 'Hey!', likeCount: 2},
+            {id: v1(), message: 'second post', likeCount: 4},
+            {id: v1(), message: 'How are you?', likeCount: 5}
         ],
         newPostText: ""
     }
@@ -21,11 +22,11 @@ const profileReducer = (state=initialState, action:ActionsType) =>{
                 message: action.postMessage,
                 likeCount: 0
             }
-            state.posts.push(newPost);
-            return state
+            return {...state, posts:[newPost, ...state.posts],newPostText:""}
+
         case "CHANGE-POST-TEXT":
-            state.newPostText = action.textMessage
-            return state
+            return {...state, newPostText:action.textMessage}
+
         default:
             return state
     }

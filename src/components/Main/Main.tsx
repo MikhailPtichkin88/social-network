@@ -3,7 +3,8 @@ import c from './Main.module.scss'
 import bg from "../../images/bg.jpg";
 import Profile from "./Profile/Profile";
 import Posts from "./Posts/Posts";
-import {ActionsType, PostsType} from "../../redux/store";
+import {ActionsType, PostsType} from "../../redux/types";
+import PostsContainer from "./Posts/PostsContainer";
 
 
 type ProfilePostsPropsType ={
@@ -21,9 +22,7 @@ const Main = (props:ProfilePostsPropsType) => {
 
                 <Profile/>
 
-                <Posts dispatch={props.dispatch}
-                       profilePostText={props.profilePostText}
-                       myPostsData={props.profilePosts}/>
+                <PostsContainer/>
             </main>
         </>
     );

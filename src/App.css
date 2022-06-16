@@ -1,11 +1,11 @@
 
-html{
+html {
     box-sizing: border-box;
 }
 
 *,
 *::after,
-*::before{
+*::before {
     box-sizing: inherit;
 }
 
@@ -51,11 +51,11 @@ select {
     font: inherit;
 }
 
-a{
+a {
     text-decoration: none;
 }
 
-body{
+body {
     font-family: Roboto, sans-serif;
     font-size: 14px;
     line-height: 1;
@@ -87,11 +87,13 @@ body{
     padding: 0;
     margin: -1px;
     overflow: hidden;
-    clip: rect(0,0,0,0);
+    clip: rect(0, 0, 0, 0);
     border: 0;
 }
-.main_wrapper{
+
+.main_wrapper {
     grid-area: main;
     background-color: aliceblue;
     padding-bottom: 10px;
+    height: 100%;
 }

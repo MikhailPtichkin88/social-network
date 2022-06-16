@@ -9,7 +9,7 @@ const AsideFriends = (props: SidebarAvatarsPropsType) => {
         <ul className={c.friends_list}>
             {
                 props.sidebarAvatars.map(t =>{
-                    return <AsideFriend id={t.id} friend={t.friend} avatar={t.avatar}/>
+                    return <AsideFriend key={t.id} id={t.id} friend={t.friend} avatar={t.avatar}/>
                 })
             }
         </ul>

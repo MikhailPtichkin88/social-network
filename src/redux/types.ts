@@ -1,6 +1,7 @@
 import profileReducer, {addPostActionCreatorType, changePostActionCreatorType} from "./profile-reducer";
 import dialogsReducer from "./dialogs-reducer";
 import sidebarReducer from "./sidebar-reducer";
+import {followChangerACType, setUsersACType} from "./users-reducer";
 
 export type MessageType = {
     id: string
@@ -42,6 +43,7 @@ export type RootStateType = {
     profilePage: ProfilePageType
     dialogPage: DialogPageType
     sidebar: SidebarType
+    usersPage:UsersType
 }
 
 export type AddMsgActionType = {
@@ -54,16 +56,26 @@ export type ChangeMsgTextType = {
     textMessage: string
 }
 
-export type ActionsType = addPostActionCreatorType | changePostActionCreatorType | AddMsgActionType | ChangeMsgTextType
-
-
-export type StoreType = {
-    _state: RootStateType
-    _rerender: () => void
-    subscribe: (callback: () => void) => void
-    getState: () => RootStateType
-    dispatch: (action: ActionsType) => void
+type LocationType = {
+    city: string
+    country: string
 }
+
+export type UserType = {
+    id: string
+    photoUrl:string
+    followed: boolean
+    fullName: string
+    status: string
+    location: LocationType
+}
+export type UsersType = {
+    users: Array<UserType>
+}
+
+
+export type ActionsType = addPostActionCreatorType | changePostActionCreatorType | AddMsgActionType | ChangeMsgTextType | followChangerACType | setUsersACType
+
 
 //
 // const store: StoreType = {
@@ -135,8 +147,6 @@ export type StoreType = {
 
 
 //typeof
-
-
 
 
 // export default store;

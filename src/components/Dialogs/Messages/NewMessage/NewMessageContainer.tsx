@@ -1,34 +1,30 @@
 import React, {ChangeEvent} from 'react';
-import c from "./NewMessage.module.scss";
+
 import {
-    ActionsType,
-} from "../../../../redux/store";
+    ActionsType, RootStateType
+} from "../../../../redux/types";
 import {addMsgActionCreator, changeMsgActionCreator} from "../../../../redux/dialogs-reducer";
 import NewMessage from "./NewMessage";
+import {connect} from "react-redux";
+import {Dispatch} from "redux";
 
-type NewMessagePropsType = {
-    newMessageText: string
-    dispatch: (action: ActionsType) => void
+
+let mapStateToProps = (state:RootStateType) =>{
+    return {
+        newMessageText:state.dialogPage.newMessageText
+    }
+}
+let mapDispatchToProps = (dispatch:Dispatch<ActionsType>) =>{
+    return {
+        onChangeHandler: (value:string)=>{
+            dispatch(changeMsgActionCreator(value))
+        },
+        addMessage: (text:string)=>{
+            dispatch(addMsgActionCreator(text))
+        },
+    }
 }
 
-const NewMessageContainer = (props: NewMessagePropsType) => {
-    let newMessageElement = React.createRef<HTMLTextAreaElement>()
-
-    let AddMessage = (text:string) => {
-        props.dispatch(addMsgActionCreator(text))
-    }
-
-    const onChangeHandler = (value:string) => {
-        props.dispatch(changeMsgActionCreator(value))
-    }
-
-    return (
-        <>
-            <NewMessage newMessageText={props.newMessageText}
-                        AddMessage={AddMessage}
-                        onChangeHandler={onChangeHandler}/>
-        </>
-    );
-};
+const NewMessageContainer = connect(mapStateToProps,mapDispatchToProps) (NewMessage)
 
 export default NewMessageContainer;

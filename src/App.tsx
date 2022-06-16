@@ -7,11 +7,12 @@ import Main from "./components/Main/Main";
 import Footer from "./components/Footer/Footer";
 import {BrowserRouter, Route} from "react-router-dom";
 import Dialogs from "./components/Dialogs/Dialogs";
-import {ActionsType, AvatarsType, DialogsType, MessageType, PostsType, RootStateType, StoreType} from "./redux/store";
+import {ActionsType, AvatarsType, DialogsType, MessageType, PostsType, RootStateType} from "./redux/types";
 import {ActionCreator, Dispatch} from "redux";
+import UsersContainer from "./components/Users/UsersContainer";
 
 
-type AppPropsType = {
+export type AppPropsType = {
     store: RootStateType
     dispatch: Dispatch<ActionsType>
 }
@@ -35,15 +36,13 @@ const App: React.FC<AppPropsType> = (props) => {
                 <Nav sidebarAvatars={sidebarAvatars}/>
                 <div className="main_wrapper">
 
-                    <Route path={'/Profile'} render={() => <Main dispatch={props.dispatch}
+                    <Route path={'/profile'} render={() => <Main dispatch={props.dispatch}
                                                                  profilePosts={profilePosts}
                                                                  profilePostText={profilePostText}/>}/>
 
-                    <Route path={'/Messages'} render={() => <Dialogs menuDialogs={menuDialogs}
-                                                                     dialogMessages={dialogMessages}
-                                                                     newMessageText={newMessageText}
-                                                                     dispatch={props.dispatch}
-                    />}/>
+                    <Route path={'/messages'} render={() => <Dialogs menuDialogs={menuDialogs}/>}/>
+
+                    <Route path={'/users'} render={() => <UsersContainer/>}/>
                 </div>
                 <Footer/>
             </div>

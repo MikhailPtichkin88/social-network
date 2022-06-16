@@ -1,33 +1,29 @@
-import React, {ChangeEvent} from 'react';
-import c from "./NewPost.module.scss";
+import React from 'react';
 import {
-    ActionsType,
-} from "../../../../redux/store";
+    ActionsType, RootStateType,
+} from "../../../../redux/types";
 import {addPostActionCreator, changePostActionCreator} from "../../../../redux/profile-reducer";
 import NewPost from "./NewPost";
+import {connect} from "react-redux";
+import {Dispatch} from "redux";
 
-type NewPostType = {
-    profilePostText: string
-    dispatch: (action: ActionsType) => void
+
+let mapStateToProps = (state: RootStateType) => {
+    return {
+        profilePostText: state.profilePage.newPostText
+    }
 }
+let mapDispatchToProps = (dispatch: Dispatch<ActionsType>) => {
+    return {
+        addNewPost: (text: string) => {
 
-const NewPostContainer = (props: NewPostType) => {
-
-
-
-    let addPost = (text:string) => {
-        props.dispatch(addPostActionCreator(text))
+            dispatch(addPostActionCreator(text))
+        },
+        updateText: (value: string) => {
+            dispatch(changePostActionCreator(value))
+        }
     }
-
-    const updateText = (value:string) => {
-        props.dispatch(changePostActionCreator(value))
-    }
-
-    return (
-        <>
-           <NewPost profilePostText={props.profilePostText} updateText={updateText} addNewPost={addPost}/>
-        </>
-    );
-};
+}
+const NewPostContainer = connect(mapStateToProps, mapDispatchToProps)(NewPost)
 
 export default NewPostContainer;

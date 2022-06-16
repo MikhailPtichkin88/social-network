@@ -1,20 +1,22 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import c from "./NewMessage.module.scss";
 
 type NewMessagePropsType = {
     newMessageText: string
-    AddMessage: (text: string) => void
+    addMessage: (text: string) => void
     onChangeHandler: (value: string) => void
 }
 
-const NewMessage = (props: NewMessagePropsType) => {
-    let newMessageElement = React.createRef<HTMLTextAreaElement>()
 
-    let AddMessage = () => {
-        props.AddMessage(props.newMessageText)
+const NewMessage = (props: NewMessagePropsType) => {
+
+    let addMessage = () => {
+
+        props.newMessageText? props.addMessage(props.newMessageText) : alert("empty value!")
     }
 
     const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+
         props.onChangeHandler(e.currentTarget.value)
     }
 
@@ -22,8 +24,7 @@ const NewMessage = (props: NewMessagePropsType) => {
         <>
             <form className={c.form} action="src/components/Main/Main#">
                 <label className="sr-only" htmlFor="message">message textarea</label>
-                <textarea ref={newMessageElement}
-                          value={props.newMessageText}
+                <textarea value={props.newMessageText}
                           onChange={onChangeHandler}
                           className={c.textarea}
                           id='message'
@@ -31,7 +32,7 @@ const NewMessage = (props: NewMessagePropsType) => {
                           placeholder="type your message"/>
 
                 <button className={c.submit}
-                        onClick={AddMessage}
+                        onClick={addMessage}
                         type="button">Send message
                 </button>
             </form>

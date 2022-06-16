@@ -1,7 +1,7 @@
 import React from 'react';
 import c from "./Menu.module.scss";
 import List from "./List/List";
-import {DialogsType} from "../../../redux/store";
+import {DialogsType} from "../../../redux/types";
 
 
 
@@ -15,7 +15,7 @@ const Menu = (props:MenuPropsType) => {
             <ul className={c.dialogs_menu}>
                 {
                     props.menuItemsData.map(t=>{
-                        return <List id={t.id} name={t.name}/>
+                        return <List key={t.id} id={t.id} name={t.name}/>
                     })
                 }
             </ul>

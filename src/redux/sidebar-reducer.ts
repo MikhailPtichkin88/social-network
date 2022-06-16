@@ -1,11 +1,12 @@
-import {SidebarType} from "./store";
+import {SidebarType} from "./types";
+import {v1} from "uuid";
 
 
 let initialState:SidebarType = {
     avatars: [
-        {id: "1", friend: "Andrew", avatar: '/images/avatars/Andrew.svg'},
-        {id: "2", friend: "Dmitry", avatar: '/images/avatars/Dmitry.svg'},
-        {id: "3", friend: "Sasha", avatar: '/images/avatars/Sasha.svg'},
+        {id: v1(), friend: "Andrew", avatar: '/images/avatars/Andrew.svg'},
+        {id: v1(), friend: "Dmitry", avatar: '/images/avatars/Dmitry.svg'},
+        {id: v1(), friend: "Sasha", avatar: '/images/avatars/Sasha.svg'},
     ]
 }
 

@@ -4,7 +4,8 @@ import {
     ChangeMsgTextType,
     DialogPageType,
     MessageType
-} from "./store";
+} from "./types";
+import {v1} from "uuid";
 
 
 type ActionNameType =  "ADD-MSG" | "CHANGE-MSG-TEXT"
@@ -15,25 +16,25 @@ const CHANGE_MSG_TEXT:ActionNameType = "CHANGE-MSG-TEXT"
 
 let initialState:DialogPageType = {
     dialogs: [
-        {id: "1", name: "Andrew"},
-        {id: "2", name: "Dmitry"},
-        {id: "3", name: "Sasha"},
-        {id: "4", name: "Sveta"},
-        {id: "5", name: "Valera"},
-        {id: "6", name: "Victor"},
-        {id: "7", name: "Igor"},
-        {id: "8", name: "Evgraf"}
+        {id: v1(), name: "Andrew"},
+        {id: v1(), name: "Dmitry"},
+        {id: v1(), name: "Sasha"},
+        {id: v1(), name: "Sveta"},
+        {id: v1(), name: "Valera"},
+        {id: v1(), name: "Victor"},
+        {id: v1(), name: "Igor"},
+        {id: v1(), name: "Evgraf"}
     ],
 
     messages: [
-        {id: "1", author: "Andrew", message: 'Hey!'},
-        {id: "2", author: "Dmitry", message: 'Hey!'},
-        {id: "3", author: "Sasha", message: 'Hey!'},
-        {id: "4", author: "Sveta", message: 'Hey!'},
-        {id: "5", author: "Valera", message: 'Hey!'},
-        {id: "6", author: "Victor", message: 'Hey!'},
-        {id: "7", author: "Igor", message: 'Hey!'},
-        {id: "8", author: "Evgraf", message: 'Hey!'}
+        {id: v1(), author: "Andrew", message: 'Hey!'},
+        {id: v1(), author: "Dmitry", message: 'Hey!'},
+        {id: v1(), author: "Sasha", message: 'Hey!'},
+        {id: v1(), author: "Sveta", message: 'Hey!'},
+        {id: v1(), author: "Valera", message: 'Hey!'},
+        {id: v1(), author: "Victor", message: 'Hey!'},
+        {id: v1(), author: "Igor", message: 'Hey!'},
+        {id: v1(), author: "Evgraf", message: 'Hey!'}
     ],
     newMessageText: ""
 }
@@ -48,11 +49,10 @@ const dialogsReducer = (state=initialState, action:ActionsType) =>{
                 author: "Me",
                 message: action.message
             }
-            state.messages.push(newMessage)
-            return state
+            return {...state, messages:[...state.messages, newMessage], newMessageText:""}
         case "CHANGE-MSG-TEXT":
-            state.newMessageText = action.textMessage
-            return state
+
+            return {...state, newMessageText:action.textMessage}
         default:
             return state
     }
