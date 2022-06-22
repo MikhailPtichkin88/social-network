@@ -1,6 +1,14 @@
-import {SidebarType} from "./types";
 import {v1} from "uuid";
 
+ export type AvatarsType = {
+    id: string
+    friend: string
+    avatar: string
+}
+
+export type SidebarType = {
+    avatars: Array<AvatarsType>
+}
 
 let initialState:SidebarType = {
     avatars: [
@@ -11,7 +19,7 @@ let initialState:SidebarType = {
 }
 
 
-const sidebarReducer = (state=initialState, action:any) =>{
+const sidebarReducer = (state=initialState, action:any):SidebarType =>{
 
     return state
 }

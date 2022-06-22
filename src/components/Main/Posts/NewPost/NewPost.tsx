@@ -1,14 +1,9 @@
 import React, {ChangeEvent} from 'react';
 import c from "./NewPost.module.scss";
+import {NewPostPropsType} from "./NewPostContainer";
 
 
-type NewPostType = {
-    profilePostText: string
-    updateText: (value:string)=>void
-    addNewPost:(text:string)=>void
-}
-
-const NewPost = (props: NewPostType) => {
+const NewPost = (props: NewPostPropsType) => {
 
     let newPostElement = React.createRef<HTMLTextAreaElement>()
 

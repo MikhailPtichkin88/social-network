@@ -5,13 +5,16 @@ import sidebarReducer from "./sidebar-reducer";
 import usersReducer from "./users-reducer";
 
 
-let reducers = combineReducers({
+let rootReducer = combineReducers({
     profilePage:profileReducer,
     dialogPage:dialogsReducer,
     sidebar:sidebarReducer,
     usersPage:usersReducer,
 })
 
- let store = createStore(reducers);
+ let store = createStore(rootReducer);
+
+export type ReduxStoreType = ReturnType<typeof rootReducer>
+
 console.log(store.getState())
  export default store;

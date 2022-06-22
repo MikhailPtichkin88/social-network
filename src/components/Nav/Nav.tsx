@@ -2,7 +2,8 @@ import React from 'react';
 import c from './Nav.module.scss'
 import {NavLink} from "react-router-dom";
 import Sidebar from "./Sidebar/Sidebar";
-import {AvatarsType} from "../../redux/types";
+import {AvatarsType} from "../../redux/sidebar-reducer";
+
 
 export type SidebarAvatarsPropsType = {
     sidebarAvatars:Array<AvatarsType>
@@ -26,7 +27,7 @@ const Nav = (props:SidebarAvatarsPropsType) => {
                         <a className={c.link} href="/music">Music</a>
                     </li>
                     <li className={c.list}>
-                        <a className={c.link} href="/users">Users</a>
+                        <NavLink className={c.link} to="/users" activeClassName={c.active}>Users</NavLink>
                     </li>
                     <li className={c.list}>
                         <a className={c.link} href="/settings">Settings</a>

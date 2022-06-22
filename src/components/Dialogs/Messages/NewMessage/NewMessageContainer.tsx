@@ -1,20 +1,27 @@
 import React, {ChangeEvent} from 'react';
-
-import {
-    ActionsType, RootStateType
-} from "../../../../redux/types";
-import {addMsgActionCreator, changeMsgActionCreator} from "../../../../redux/dialogs-reducer";
+import {addMsgActionCreator, changeMsgActionCreator, DialogsActionType} from "../../../../redux/dialogs-reducer";
 import NewMessage from "./NewMessage";
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
+import {ReduxStoreType} from "../../../../redux/redux-store";
 
+type MapStateToPropsType = {
+    newMessageText:string
+}
+type MapDispatchToPropsType ={
+    onChangeHandler: (value:string)=>void
+    addMessage: (text:string)=>void
+}
 
-let mapStateToProps = (state:RootStateType) =>{
+export type NewMessagePropsType = MapStateToPropsType & MapDispatchToPropsType
+
+let mapStateToProps = (state:ReduxStoreType):MapStateToPropsType =>{
     return {
         newMessageText:state.dialogPage.newMessageText
     }
 }
-let mapDispatchToProps = (dispatch:Dispatch<ActionsType>) =>{
+
+let mapDispatchToProps = (dispatch:Dispatch<DialogsActionType>):MapDispatchToPropsType =>{
     return {
         onChangeHandler: (value:string)=>{
             dispatch(changeMsgActionCreator(value))

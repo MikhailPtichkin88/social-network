@@ -1,8 +1,7 @@
 import React from 'react';
 import c from "./Menu.module.scss";
 import List from "./List/List";
-import {DialogsType} from "../../../redux/types";
-
+import {DialogsType} from "../../../redux/dialogs-reducer";
 
 
 type MenuPropsType = {

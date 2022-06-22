@@ -7,14 +7,17 @@ import Main from "./components/Main/Main";
 import Footer from "./components/Footer/Footer";
 import {BrowserRouter, Route} from "react-router-dom";
 import Dialogs from "./components/Dialogs/Dialogs";
-import {ActionsType, AvatarsType, DialogsType, MessageType, PostsType, RootStateType} from "./redux/types";
 import {ActionCreator, Dispatch} from "redux";
 import UsersContainer from "./components/Users/UsersContainer";
+import {ReduxStoreType} from "./redux/redux-store";
+import {DialogsType, MessageType} from "./redux/dialogs-reducer";
+import {PostsType} from "./redux/profile-reducer";
+import {AvatarsType} from "./redux/sidebar-reducer";
 
 
 export type AppPropsType = {
-    store: RootStateType
-    dispatch: Dispatch<ActionsType>
+    store: ReduxStoreType
+    dispatch: Dispatch
 }
 
 const App: React.FC<AppPropsType> = (props) => {

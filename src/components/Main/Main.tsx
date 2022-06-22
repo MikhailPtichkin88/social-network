@@ -2,15 +2,14 @@ import React from 'react';
 import c from './Main.module.scss'
 import bg from "../../images/bg.jpg";
 import Profile from "./Profile/Profile";
-import Posts from "./Posts/Posts";
-import {ActionsType, PostsType} from "../../redux/types";
 import PostsContainer from "./Posts/PostsContainer";
+import {PostsType, ProfileActionType} from "../../redux/profile-reducer";
 
 
 type ProfilePostsPropsType ={
     profilePosts:Array<PostsType>
     profilePostText:string
-    dispatch: (action: ActionsType) => void
+    dispatch: (action: ProfileActionType) => void
 }
 
 const Main = (props:ProfilePostsPropsType) => {

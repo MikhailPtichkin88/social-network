@@ -1,17 +1,22 @@
-import {
-    ActionsType,
-    AddMsgActionType,
-    ChangeMsgTextType,
-    DialogPageType,
-    MessageType
-} from "./types";
+
 import {v1} from "uuid";
 
+export type DialogsType = {
+    id: string
+    name: string
+}
 
-type ActionNameType =  "ADD-MSG" | "CHANGE-MSG-TEXT"
+export type MessageType = {
+    id: string
+    author: string
+    message: string
+}
 
-const ADD_MSG:ActionNameType =  "ADD-MSG"
-const CHANGE_MSG_TEXT:ActionNameType = "CHANGE-MSG-TEXT"
+export type DialogPageType = {
+    dialogs: Array<DialogsType>
+    messages: Array<MessageType>
+    newMessageText: string
+}
 
 
 let initialState:DialogPageType = {
@@ -40,7 +45,7 @@ let initialState:DialogPageType = {
 }
 
 
-const dialogsReducer = (state=initialState, action:ActionsType) =>{
+const dialogsReducer = (state=initialState, action:DialogsActionType):DialogPageType =>{
 
     switch (action.type) {
         case "ADD-MSG":
@@ -58,25 +63,22 @@ const dialogsReducer = (state=initialState, action:ActionsType) =>{
     }
 }
 
+export type DialogsActionType = ChangeMsgACType | AddMsgACType
 
-///Action creators
-
-type addMsgActionCreatorType = (text: string) => AddMsgActionType
-type changeMsgActionCreatorType = (text: string) => ChangeMsgTextType
-// другой вариант типизации объекта action
-
-export const addMsgActionCreator: addMsgActionCreatorType = (text) => {
+type AddMsgACType = ReturnType<typeof addMsgActionCreator>
+export const addMsgActionCreator = (message:string) => {
     return {
-        type: ADD_MSG,
-        message: text,
-    }
+        type: "ADD-MSG",
+        message
+    }as const
 }
 
-export const changeMsgActionCreator: changeMsgActionCreatorType = (text) => {
+type ChangeMsgACType = ReturnType<typeof changeMsgActionCreator>
+export const changeMsgActionCreator = (textMessage:string) => {
     return {
-        type: CHANGE_MSG_TEXT,
-        textMessage: text,
-    }
+        type: "CHANGE-MSG-TEXT",
+        textMessage
+    }as const
 }
 
 export default dialogsReducer

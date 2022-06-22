@@ -1,7 +1,7 @@
 import React from 'react';
 import c from './AsideFriend.module.scss'
-import {AvatarsType} from "../../../../../redux/types";
 import avatar from '../../../../../images/avatars/Andrew.svg'
+import {AvatarsType} from "../../../../../redux/sidebar-reducer";
 
 const AsideFriend = (props: AvatarsType) => {
 

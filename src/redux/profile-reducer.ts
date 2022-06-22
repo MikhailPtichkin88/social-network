@@ -1,8 +1,15 @@
-import {
-    ActionsType,
-    PostsType, ProfilePageType,
-} from "./types";
 import {v1} from "uuid";
+
+export type PostsType = {
+    id: string
+    message: string
+    likeCount: number
+}
+
+export type ProfilePageType = {
+    posts: Array<PostsType>
+    newPostText: string
+}
 
 
 let initialState:ProfilePageType = {
@@ -14,7 +21,7 @@ let initialState:ProfilePageType = {
         newPostText: ""
     }
 
-const profileReducer = (state=initialState, action:ActionsType) =>{
+const profileReducer = (state=initialState, action:ProfileActionType):ProfilePageType =>{
     switch (action.type) {
         case "ADD-POST":
             let newPost: PostsType = {
@@ -32,9 +39,9 @@ const profileReducer = (state=initialState, action:ActionsType) =>{
     }
 }
 
-///Action creators
-export type addPostActionCreatorType = ReturnType<typeof addPostActionCreator>
-export type changePostActionCreatorType = ReturnType<typeof changePostActionCreator>
+export type ProfileActionType = addPostActionCreatorType | changePostActionCreatorType
+ type addPostActionCreatorType = ReturnType<typeof addPostActionCreator>
+ type changePostActionCreatorType = ReturnType<typeof changePostActionCreator>
 
 export const addPostActionCreator = (text:string) => {
     return {

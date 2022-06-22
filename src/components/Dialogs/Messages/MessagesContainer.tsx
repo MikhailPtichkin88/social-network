@@ -1,14 +1,18 @@
 import React from 'react';
-import c from './Messages.module.scss'
-import Message from "./Message/Message";
-import {ActionsType, MessageType, RootStateType} from "../../../redux/types";
+
 
 import NewMessageContainer from "./NewMessage/NewMessageContainer";
 import Messages from "./Messages";
 import {connect} from "react-redux";
+import {ReduxStoreType} from "../../../redux/redux-store";
+import {MessageType} from "../../../redux/dialogs-reducer";
 
 
-let mapPropsToState = (state:RootStateType)=>{
+export type MessagesPropsType = {
+    messagesData: Array<MessageType>
+}
+
+let mapPropsToState = (state:ReduxStoreType):MessagesPropsType=>{
     return{
         messagesData:state.dialogPage.messages
     }

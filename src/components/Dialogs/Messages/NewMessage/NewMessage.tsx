@@ -1,11 +1,7 @@
 import React, {ChangeEvent, useState} from 'react';
 import c from "./NewMessage.module.scss";
+import {NewMessagePropsType} from "./NewMessageContainer";
 
-type NewMessagePropsType = {
-    newMessageText: string
-    addMessage: (text: string) => void
-    onChangeHandler: (value: string) => void
-}
 
 
 const NewMessage = (props: NewMessagePropsType) => {

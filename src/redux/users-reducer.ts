@@ -1,5 +1,22 @@
 import {v1} from "uuid";
-import {ActionsType, UsersType, UserType} from "./types";
+
+type LocationType = {
+    city: string
+    country: string
+}
+
+export type UserType = {
+    id: string
+    photoUrl:string
+    followed: boolean
+    fullName: string
+    status: string
+    location: LocationType
+}
+
+export type UsersType = {
+    users: Array<UserType>
+}
 
 
 let initialState: UsersType = {
@@ -31,7 +48,7 @@ let initialState: UsersType = {
     ],
 }
 
-const usersReducer = (state = initialState, action: ActionsType) => {
+const usersReducer = (state = initialState, action: UsersActionType):UsersType => {
     switch (action.type) {
         case "FOLLOW-UNFOLLOW":
 
@@ -50,7 +67,10 @@ const usersReducer = (state = initialState, action: ActionsType) => {
     }
 }
 
-export type followChangerACType = ReturnType<typeof followChangerAC>
+
+export type UsersActionType = followChangerACType | setUsersACType
+
+type followChangerACType = ReturnType<typeof followChangerAC>
 
 export const followChangerAC = (userId: string, isFollowed: boolean) => {
     return {
@@ -62,7 +82,7 @@ export const followChangerAC = (userId: string, isFollowed: boolean) => {
     } as const
 }
 
-export type setUsersACType = ReturnType<typeof setUsersAC>
+ type setUsersACType = ReturnType<typeof setUsersAC>
 export const setUsersAC = (users: Array<UserType>) => {
     return {
         type: "SET-USERS",
