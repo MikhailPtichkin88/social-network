@@ -10,7 +10,7 @@
 
 .users_list {
   max-height: 90%;
-  margin-bottom: 20px;
+  margin-bottom:auto;
 }
 
 .users_item {
@@ -27,4 +27,19 @@
   border-radius: 5px;
   border: none;
   font-size: 16px;
+}
+
+.pagination{
+  display: flex;
+  gap: 20px;
+  margin-bottom: 10px;
+}
+.paginationItem{
+
+}
+.paginationLink{
+  font-size: 20px;
+}
+.activePage {
+  font-weight: bold;
 }

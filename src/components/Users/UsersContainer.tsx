@@ -2,36 +2,43 @@ import React from 'react';
 import Users from "./Users";
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
-import {followChangerAC, setUsersAC, UsersActionType, UserType} from "../../redux/users-reducer";
+import {
+    currentPageChangerAC,
+    followChangerAC,
+    setTotalUsersCountAC,
+    setUsersAC,
+    UsersActionType,
+    UserType
+} from "../../redux/users-reducer";
 import {v1} from "uuid";
 import {ReduxStoreType} from "../../redux/redux-store";
 
-let users = [
-    {
-        id: v1(),
-        photoUrl: "https://klike.net/uploads/posts/2019-03/1551511801_1.jpg",
-        followed: true,
-        fullName: 'Mikhail',
-        status: "I am a boss",
-        location: {city: "Moscow", country: "Russia"}
-    },
-]
+
+
 
 
 type MapStateToPropsType = {
     users: Array<UserType>
+    pageSize: number
+    totalUsersCount: number
+    currentPage:number
 }
 
 type MapDispatchToProps = {
     onChangeHandler: (userId: string, isFollowed: boolean)=>void
-    setUsers: ()=> void
+    setUsers: (users:Array<UserType>)=> void
+    onChangePageHandler: (value:number) => void
+    setTotalUsersCount:(count:number)=>void
 }
 export type UsersPropsType = MapStateToPropsType & MapDispatchToProps
 
 
 let mapPropsToState = (state: ReduxStoreType):MapStateToPropsType => {
     return {
-        users: state.usersPage.users
+        users: state.usersPage.users,
+        pageSize: state.usersPage.pageSize,
+        totalUsersCount: state.usersPage.totalUsersCount,
+        currentPage:state.usersPage.currentPage
     }
 }
 
@@ -40,9 +47,15 @@ let mapDispatchToState = (dispatch: Dispatch<UsersActionType>):MapDispatchToProp
         onChangeHandler: (userId: string, isFollowed: boolean) => {
             dispatch(followChangerAC(userId, isFollowed))
         },
-        setUsers: () => {
+        setUsers: (users:Array<UserType>) => {
             dispatch(setUsersAC(users))
         },
+        onChangePageHandler: (value:number) =>{
+            dispatch(currentPageChangerAC(value))
+        },
+        setTotalUsersCount:(count:number)=>{
+            dispatch(setTotalUsersCountAC(count))
+        }
     }
 }
 

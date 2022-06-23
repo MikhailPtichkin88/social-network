@@ -1,58 +1,39 @@
 import {v1} from "uuid";
 
-type LocationType = {
-    city: string
-    country: string
+type PhotosType = {
+    large: string
+    small: string
 }
 
 export type UserType = {
     id: string
-    photoUrl:string
+    photos: PhotosType
     followed: boolean
-    fullName: string
+    name: string
     status: string
-    location: LocationType
+    uniqueUrlName: string
 }
 
 export type UsersType = {
     users: Array<UserType>
+    pageSize: number,
+    totalUsersCount: number,
+    currentPage: number,
 }
-
 
 let initialState: UsersType = {
-    users: [
-        {
-            id: v1(),
-            photoUrl: "https://klike.net/uploads/posts/2019-03/1551511801_1.jpg",
-            followed: true,
-            fullName: 'Mikhail',
-            status: "Hey there, let's go for a drink",
-            location: {city: "Moscow", country: "Russia"}
-        },
-        {
-            id: v1(),
-            photoUrl: "https://vjoy.cc/wp-content/uploads/2020/03/2824678843.jpg",
-            followed: true,
-            fullName: 'Alex',
-            status: "Hey there, let's go for a drink",
-            location: {city: "Minsk", country: "Belarus"}
-        },
-        {
-            id: v1(),
-            photoUrl: "https://klike.net/uploads/posts/2019-03/1551511823_2.jpg",
-            followed: false,
-            fullName: 'Sveta',
-            status: "Looking for a job right now",
-            location: {city: "Los Angeles", country: "USA"}
-        },
-    ],
+    users: [],
+    pageSize: 5,
+    totalUsersCount: 19,
+    currentPage: 1,
 }
 
-const usersReducer = (state = initialState, action: UsersActionType):UsersType => {
+const usersReducer = (state: UsersType = initialState, action: UsersActionType): UsersType => {
     switch (action.type) {
         case "FOLLOW-UNFOLLOW":
 
-            return {...state,
+            return {
+                ...state,
                 users: state.users.map(t => t.id === action.payload.userId ? {
                     ...t,
                     followed: action.payload.isFollowed
@@ -60,7 +41,12 @@ const usersReducer = (state = initialState, action: UsersActionType):UsersType =
             }
 
         case "SET-USERS":
-            return {...state, users: [...state.users, ...action.payload.users]}
+            return {...state, users: action.payload.users}
+
+        case "CHANGE-CURRENT-PAGE":
+            return {...state, currentPage: action.payload.value}
+        case "CHANGE-TOTAL-COUNT":
+            return {...state, totalUsersCount: action.payload.value}
 
         default:
             return state
@@ -68,7 +54,7 @@ const usersReducer = (state = initialState, action: UsersActionType):UsersType =
 }
 
 
-export type UsersActionType = followChangerACType | setUsersACType
+export type UsersActionType = followChangerACType | setUsersACType | currentPageChangerACType | setTotalUsersCountACType
 
 type followChangerACType = ReturnType<typeof followChangerAC>
 
@@ -82,7 +68,7 @@ export const followChangerAC = (userId: string, isFollowed: boolean) => {
     } as const
 }
 
- type setUsersACType = ReturnType<typeof setUsersAC>
+type setUsersACType = ReturnType<typeof setUsersAC>
 export const setUsersAC = (users: Array<UserType>) => {
     return {
         type: "SET-USERS",
@@ -92,4 +78,23 @@ export const setUsersAC = (users: Array<UserType>) => {
     } as const
 }
 
+type currentPageChangerACType = ReturnType<typeof currentPageChangerAC>
+export const currentPageChangerAC = (value: number) => {
+    return {
+        type: "CHANGE-CURRENT-PAGE",
+        payload: {
+            value
+        }
+    } as const
+}
+
+type setTotalUsersCountACType = ReturnType<typeof setTotalUsersCountAC>
+export const setTotalUsersCountAC = (value: number) => {
+    return {
+        type: "CHANGE-TOTAL-COUNT",
+        payload: {
+            value
+        }
+    } as const
+}
 export default usersReducer

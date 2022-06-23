@@ -1,25 +1,23 @@
 import {v1} from "uuid";
 
+// другой вариант типизации
+
+let initialState = {
+        posts: [
+            {id: v1(), message: 'Hey!', likeCount: 2},
+            {id: v1(), message: 'second post', likeCount: 4},
+            {id: v1(), message: 'How are you?', likeCount: 5}
+        ] as Array<PostsType>,                                  // !!!
+        newPostText: ""
+    }
+
 export type PostsType = {
     id: string
     message: string
     likeCount: number
 }
 
-export type ProfilePageType = {
-    posts: Array<PostsType>
-    newPostText: string
-}
-
-
-let initialState:ProfilePageType = {
-        posts: [
-            {id: v1(), message: 'Hey!', likeCount: 2},
-            {id: v1(), message: 'second post', likeCount: 4},
-            {id: v1(), message: 'How are you?', likeCount: 5}
-        ],
-        newPostText: ""
-    }
+export type ProfilePageType = typeof initialState               // !!!
 
 const profileReducer = (state=initialState, action:ProfileActionType):ProfilePageType =>{
     switch (action.type) {

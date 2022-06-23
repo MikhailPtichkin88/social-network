@@ -8,7 +8,7 @@ type UserPropsType = {
     photoUrl: string
     name: string
     status: string
-    country: string
+    link: string
     city: string
     isFollowed: boolean
     callback: (isFollowed: boolean) => void
@@ -42,7 +42,7 @@ const User = (props: UserPropsType) => {
                 </div>
 
                 <div className={c.right}>
-                    <p className={c.country}>{props.country},</p>
+                    <p className={c.country}>{props.link},</p>
                     <p className={c.city}>{props.city}</p>
                 </div>
 
