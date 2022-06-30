@@ -19,6 +19,7 @@ export type UsersType = {
     pageSize: number,
     totalUsersCount: number,
     currentPage: number,
+    isFetching: boolean
 }
 
 let initialState: UsersType = {
@@ -26,6 +27,7 @@ let initialState: UsersType = {
     pageSize: 5,
     totalUsersCount: 19,
     currentPage: 1,
+    isFetching: false
 }
 
 const usersReducer = (state: UsersType = initialState, action: UsersActionType): UsersType => {
@@ -42,19 +44,19 @@ const usersReducer = (state: UsersType = initialState, action: UsersActionType):
 
         case "SET-USERS":
             return {...state, users: action.payload.users}
-
         case "CHANGE-CURRENT-PAGE":
             return {...state, currentPage: action.payload.value}
         case "CHANGE-TOTAL-COUNT":
             return {...state, totalUsersCount: action.payload.value}
-
+        case "TOGGLE-IS-FETCHING":
+            return {...state, isFetching:action.payload.isFetching}
         default:
             return state
     }
 }
 
 
-export type UsersActionType = followChangerACType | setUsersACType | currentPageChangerACType | setTotalUsersCountACType
+export type UsersActionType = followChangerACType | setUsersACType | currentPageChangerACType | setTotalUsersCountACType | SetIsFetchingACType
 
 type followChangerACType = ReturnType<typeof followChangerAC>
 
@@ -96,5 +98,15 @@ export const setTotalUsersCountAC = (value: number) => {
             value
         }
     } as const
+}
+
+type SetIsFetchingACType = ReturnType<typeof setIsFetchingAC>
+export const setIsFetchingAC = (isFetching:boolean)=>{
+    return{
+        type: 'TOGGLE-IS-FETCHING',
+        payload:{
+            isFetching
+        }
+    }as const
 }
 export default usersReducer

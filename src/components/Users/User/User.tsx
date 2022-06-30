@@ -1,6 +1,6 @@
 import React, {ChangeEvent} from 'react';
 import c from './User.module.scss'
-import {v1} from "uuid";
+import {v1} from 'uuid';
 
 
 
