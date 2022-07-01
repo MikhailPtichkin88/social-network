@@ -40,7 +40,7 @@ const App: React.FC<AppPropsType> = (props) => {
                 <Nav sidebarAvatars={sidebarAvatars}/>
                 <div className="main_wrapper">
 
-                    <Route path={'/profile'} render={() => <MainContainer  />}/>
+                    <Route path={'/profile/:userId?'} render={() => <MainContainer  />}/>
 
                     <Route path={'/messages'} render={() => <Dialogs menuDialogs={menuDialogs}/>}/>
 
