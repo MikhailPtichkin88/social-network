@@ -13,6 +13,7 @@ import {ReduxStoreType} from "./redux/redux-store";
 import {DialogsType, MessageType} from "./redux/dialogs-reducer";
 import {PostsType} from "./redux/profile-reducer";
 import {AvatarsType} from "./redux/sidebar-reducer";
+import MainContainer from "./components/Main/MainContainer";
 
 
 export type AppPropsType = {
@@ -39,9 +40,7 @@ const App: React.FC<AppPropsType> = (props) => {
                 <Nav sidebarAvatars={sidebarAvatars}/>
                 <div className="main_wrapper">
 
-                    <Route path={'/profile'} render={() => <Main dispatch={props.dispatch}
-                                                                 profilePosts={profilePosts}
-                                                                 profilePostText={profilePostText}/>}/>
+                    <Route path={'/profile'} render={() => <MainContainer  />}/>
 
                     <Route path={'/messages'} render={() => <Dialogs menuDialogs={menuDialogs}/>}/>
 

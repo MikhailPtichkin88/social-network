@@ -1,6 +1,6 @@
 import {v1} from "uuid";
 
-type PhotosType = {
+export type PhotosType = {
     large: string
     small: string
 }

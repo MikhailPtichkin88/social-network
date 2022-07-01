@@ -3,26 +3,23 @@ import c from './Main.module.scss'
 import bg from "../../images/bg.jpg";
 import Profile from "./Profile/Profile";
 import PostsContainer from "./Posts/PostsContainer";
-import {PostsType, ProfileActionType} from "../../redux/profile-reducer";
+import {ProfileUserType} from "../../redux/profile-reducer";
 
-
-type ProfilePostsPropsType ={
-    profilePosts:Array<PostsType>
-    profilePostText:string
-    dispatch: (action: ProfileActionType) => void
+type MainPropsType = {
+    profile:ProfileUserType
 }
 
-const Main = (props:ProfilePostsPropsType) => {
+const Main = (props:MainPropsType) => {
     return (
         <>
-            <main className={c.main}>
+            <div className={c.main}>
 
                 <img className={c.bg_img} src={bg} alt="background image"/>
 
-                <Profile/>
+                <Profile profile={props.profile}/>
 
                 <PostsContainer/>
-            </main>
+            </div>
         </>
     );
 };

@@ -1,13 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Dispatch} from 'redux';
 import c from './Users.module.scss'
 import {
     currentPageChangerAC,
     followChangerAC, setIsFetchingAC,
     setTotalUsersCountAC,
     setUsersAC,
-    UsersActionType,
     UserType
 } from '../../redux/users-reducer';
 import {ReduxStoreType} from '../../redux/redux-store';
@@ -81,7 +79,6 @@ class UsersAPI extends React.Component<UsersPropsType, ReduxStoreType> {   //Ñ‚Ð
         </>
     }
 }
-
 
 const UsersContainer = connect(mapStateToProps, {
     onChangeHandler: followChangerAC,

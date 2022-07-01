@@ -55,7 +55,7 @@ const Users = (props:UsersPresentationPropsType) => {
                         const photo = (u.photos.small || u.photos.large) ? (u.photos.small || u.photos.large) : ava
 
                         return <li key={u.id} className={c.users_item}>
-                            <User photoUrl={photo} name={u.name} status={u.status} link={u.uniqueUrlName}
+                            <User userId={u.id} photoUrl={photo} name={u.name} status={u.status} link={u.uniqueUrlName}
                                   city="User.city" isFollowed={u.followed} callback={onChangeHandler}/>
                         </li>
                     })

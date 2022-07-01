@@ -1,7 +1,7 @@
 import React, {ChangeEvent} from 'react';
 import c from './User.module.scss'
 import {v1} from 'uuid';
-
+import {NavLink} from "react-router-dom";
 
 
 type UserPropsType = {
@@ -12,6 +12,7 @@ type UserPropsType = {
     city: string
     isFollowed: boolean
     callback: (isFollowed: boolean) => void
+    userId:string
 }
 
 const User = (props: UserPropsType) => {
@@ -23,13 +24,14 @@ const User = (props: UserPropsType) => {
     return (
         <div className={c.wrapper}>
             <div className={c.photo_info}>
-                <img className={c.photo_img} src={props.photoUrl} alt="avatar"/>
-
+                <NavLink to={'/profile/' + props.userId}>
+                    <img className={c.photo_img} src={props.photoUrl} alt="avatar"/>
+                </NavLink>
                 <input type="checkbox"
                        id={inputId}
-                           checked={props.isFollowed}
-                           onChange={onChangeHandler}
-                           className={c.is_followed_btn}/>
+                       checked={props.isFollowed}
+                       onChange={onChangeHandler}
+                       className={c.is_followed_btn}/>
                 <label className={c.label} htmlFor={inputId}></label>
             </div>
 

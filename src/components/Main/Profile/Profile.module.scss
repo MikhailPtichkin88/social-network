@@ -16,9 +16,20 @@
 }
 
 .info{
- p{
   font-size: 16px;
-  margin-bottom: 5px;
- }
+}
+.about{
+  margin-bottom: 10px;
+}
+.jobBlock{
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.jobDescr{
+  margin-bottom: 15px;
+}
+.shadow{
+  box-shadow: -5px 5px 5px #b0e0e6 ;
 }
 
