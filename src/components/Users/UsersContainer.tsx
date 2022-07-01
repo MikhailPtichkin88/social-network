@@ -32,36 +32,17 @@ type MapDispatchToProps = {
     setTotalUsersCount: (count: number) => void
     setIsFetching: (isFetching: boolean) => void
 }
+
 export type UsersPropsType = MapStateToPropsType & MapDispatchToProps
 
 
-let mapPropsToState = (state: ReduxStoreType): MapStateToPropsType => {
+let mapStateToProps = (state: ReduxStoreType): MapStateToPropsType => {
     return {
         users: state.usersPage.users,
         pageSize: state.usersPage.pageSize,
         totalUsersCount: state.usersPage.totalUsersCount,
         currentPage: state.usersPage.currentPage,
         isFetching: state.usersPage.isFetching,
-    }
-}
-
-let mapDispatchToState = (dispatch: Dispatch<UsersActionType>): MapDispatchToProps => {
-    return {
-        onChangeHandler: (userId: string, isFollowed: boolean) => {
-            dispatch(followChangerAC(userId, isFollowed))
-        },
-        setUsers: (users: Array<UserType>) => {
-            dispatch(setUsersAC(users))
-        },
-        onChangePageHandler: (value: number) => {
-            dispatch(currentPageChangerAC(value))
-        },
-        setTotalUsersCount: (count: number) => {
-            dispatch(setTotalUsersCountAC(count))
-        },
-        setIsFetching: (isFetching: boolean) => {
-            dispatch(setIsFetchingAC(isFetching))
-        },
     }
 }
 
@@ -102,5 +83,13 @@ class UsersAPI extends React.Component<UsersPropsType, ReduxStoreType> {   //т�
 }
 
 
-const UsersContainer = connect(mapPropsToState, mapDispatchToState)(UsersAPI)
+const UsersContainer = connect(mapStateToProps, {
+    onChangeHandler: followChangerAC,
+    setUsers: setUsersAC,
+    onChangePageHandler: currentPageChangerAC,
+    setTotalUsersCount: setTotalUsersCountAC,
+    setIsFetching: setIsFetchingAC,
+})(UsersAPI)
 export default UsersContainer
+
+//  " ...если вы передаете в connect вторым аргументом не mapDispatchToProps, а объект с AC, то connect оборачивает ваши AC в функцию-обертку () => store.dispatch(AC) и передаёт в props компонента."
