@@ -14,6 +14,7 @@ import {DialogsType, MessageType} from "./redux/dialogs-reducer";
 import {PostsType} from "./redux/profile-reducer";
 import {AvatarsType} from "./redux/sidebar-reducer";
 import MainContainer from "./components/Main/MainContainer";
+import HeaderContainer from "./components/Header/HeaderContainer";
 
 
 export type AppPropsType = {
@@ -35,7 +36,7 @@ const App: React.FC<AppPropsType> = (props) => {
         <BrowserRouter>
             <div className="App app-wrapper">
 
-                <Header/>
+                <HeaderContainer/>
 
                 <Nav sidebarAvatars={sidebarAvatars}/>
                 <div className="main_wrapper">

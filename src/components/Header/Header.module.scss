@@ -3,9 +3,18 @@
   background-color: powderblue;
   padding: 0 15px;
 }
-
+.wrapper{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 .img{
   display: block;
   width: 150px;
   height: 60px;
+}
+.link{
+  font-size: 18px;
+  color: #000;
+  text-decoration: underline;
 }

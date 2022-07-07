@@ -18,9 +18,9 @@ export type UserProfileContactsType = {
     mainLink: string | null,
 }
 
-export type ProfileUserType={
+export type ProfileUserType = {
     aboutMe: string,
-    contacts:UserProfileContactsType
+    contacts: UserProfileContactsType
     lookingForAJob: boolean,
     lookingForAJobDescription: string,
     fullName: string,
@@ -35,7 +35,7 @@ let initialState = {
         {id: v1(), message: 'How are you?', likeCount: 5}
     ] as Array<PostsType>,                                  // !!!
     newPostText: "",
-    profile:{}as ProfileUserType
+    profile: {} as ProfileUserType
 }
 
 
@@ -79,7 +79,7 @@ export const changePostActionCreator = (text: string) => {
     } as const
 }
 
-export const setUserProfileAC = (profile: any) => {
+export const setUserProfileAC = (profile: ProfileUserType) => {
     return {
         type: 'SET-USER-PROFILE',
         payload: {
