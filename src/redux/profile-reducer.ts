@@ -54,7 +54,7 @@ const profileReducer = (state = initialState, action: ProfileActionType): Profil
         case "CHANGE-POST-TEXT":
             return {...state, newPostText: action.textMessage}
         case'SET-USER-PROFILE':
-            return {...state, profile: action.payload.profile}
+            return {...state, profile: {...state.profile, ...action.payload.profile}}
         default:
             return state
     }

@@ -3,6 +3,7 @@ import c from './User.module.scss'
 import {v1} from 'uuid';
 import {NavLink} from "react-router-dom";
 import axios from "axios";
+import {userAPI} from "../../../api/api";
 
 
 type UserPropsType = {
@@ -21,28 +22,19 @@ const User = (props: UserPropsType) => {
 
     const onFollowClickHandler = () => {
 
-        axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${props.userId}`, {}, {
-            withCredentials:true,
-            headers:{
-                'API-KEY':'9df85157-ef47-4383-94d5-5e90e6d2a59b'
-            }
-        }).then(response => {
-            if(response.data.resultCode===0){
+        userAPI.followUser(props.userId)
+            .then(response => {
+            if(response.resultCode===0){
                 props.onFollowHandler()
             }
-
         })
     }
 
     const onUnFollowClickHandler = () => {
 
-        axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${props.userId}`, {
-            withCredentials:true,
-            headers:{
-                'API-KEY':'9df85157-ef47-4383-94d5-5e90e6d2a59b'
-            }
-        }).then(response => {
-            if(response.data.resultCode===0){
+        userAPI.unFollowUser(props.userId)
+            .then(response => {
+            if(response.resultCode===0){
                 props.onUnFollowHandler()
             }
         })
@@ -61,7 +53,6 @@ const User = (props: UserPropsType) => {
                         ? <button className={c.followBtn+' '+c.isFollowed} onClick={onUnFollowClickHandler}>Unfollow</button>
 
                         : <button className={c.followBtn} onClick={onFollowClickHandler}>Follow</button>
-
                 }
 
             </div>

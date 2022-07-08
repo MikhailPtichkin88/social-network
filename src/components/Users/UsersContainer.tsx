@@ -2,43 +2,37 @@ import React from 'react';
 import {connect} from 'react-redux';
 import c from './Users.module.scss'
 import {
-    currentPageChangerAC, currentPageChangerACType,
-    followChangerAC, followChangerACType, setIsFetchingAC, SetIsFetchingACType,
-    setTotalUsersCountAC, setTotalUsersCountACType,
-    setUsersAC, setUsersACType, unFollowChangerAC, unFollowChangerACType,
+    currentPageChangerAC,
+    followChangerAC, setIsFetchingAC,
+    setTotalUsersCountAC,
+    setUsersAC, unFollowChangerAC,
     UserType
 } from '../../redux/users-reducer';
 import {ReduxStoreType} from '../../redux/redux-store';
-import axios from 'axios';
 import Users from './Users';
 import Spinner from "../common/spinner/Spinner";
+import {userAPI} from "../../api/api";
 
 
 class UsersAPI extends React.Component<UsersPropsType, ReduxStoreType> {   //типизация <пропсов, стейта>
 
     componentDidMount() {
         this.props.setIsFetchingAC(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`, {
-            withCredentials: true
+        userAPI.getUsers(this.props.currentPage, this.props.pageSize).then(response => {
+            this.props.setIsFetchingAC(false)
+            this.props.setUsersAC(response.items)
+            this.props.setTotalUsersCountAC(response.totalCount)
         })
-            .then(response => {
-                this.props.setIsFetchingAC(false)
-                this.props.setUsersAC(response.data.items)
-                this.props.setTotalUsersCountAC(response.data.totalCount)
-            })
     }
 
     onClickHandler = (p: number) => {
 
         this.props.currentPageChangerAC(p)
         this.props.setIsFetchingAC(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${p}&count=${this.props.pageSize}`, {
-            withCredentials: true
+        userAPI.getUsers(p, this.props.pageSize).then(response => {
+            this.props.setIsFetchingAC(false)
+            this.props.setUsersAC(response.items)
         })
-            .then(response => {
-                this.props.setIsFetchingAC(false)
-                this.props.setUsersAC(response.data.items)
-            })
     }
 
     render() {

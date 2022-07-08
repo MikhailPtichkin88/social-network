@@ -9,16 +9,19 @@ import {
     setUserProfileACType,
 } from "../../redux/profile-reducer";
 import {RouteComponentProps, withRouter} from "react-router-dom";
+import {userAPI} from "../../api/api";
 
 
-
-class MainContainer extends React.Component<MainContainerPropsType, any> {
+class MainContainer extends React.Component<any, any> {
 
     componentDidMount() {
-        let userId = this.props.auth.userId || "2"
-        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/` + userId).then(response => {
-            this.props.setUserProfile(response.data)
-        })
+
+        let userId = this.props.match.params.userId || this.props.auth.userId
+
+        userAPI.getProfile(userId)
+            .then(response => {
+                this.props.setUserProfile(response)
+            })
     }
 
     render() {
@@ -33,16 +36,17 @@ class MainContainer extends React.Component<MainContainerPropsType, any> {
 
 let mapStateToProps = (state: ReduxStoreType) => ({
     profile: state.profilePage.profile,
-    auth:state.auth.user
+    auth: state.auth.user
 })
 
-type MainContainerPropsType = mapStateToPropsType & mapDispatchToProps
+type MainContainerPropsType = mapStateToPropsType & mapDispatchToProps & RouteComponentProps
 
 type mapStateToPropsType = ReturnType<typeof mapStateToProps>
 type mapDispatchToProps = {
     setUserProfile: (profile: ProfileUserType) => setUserProfileACType
 }
 
-let WithUrlDataContainerComponent = withRouter<RouteComponentProps, any>(MainContainer)
 
-export default connect<mapStateToPropsType,mapDispatchToProps,{},ReduxStoreType>(mapStateToProps, {setUserProfile: setUserProfileAC})(WithUrlDataContainerComponent);
+let WithUrlDataContainerComponent = withRouter<any, any>(MainContainer)
+
+export default connect<mapStateToPropsType, mapDispatchToProps, {}, ReduxStoreType>(mapStateToProps, {setUserProfile: setUserProfileAC})(WithUrlDataContainerComponent);

@@ -8,28 +8,29 @@ import {
 import axios from "axios";
 import {connect} from "react-redux";
 import {ReduxStoreType} from "../../redux/redux-store";
+import {userAPI} from "../../api/api";
 
 
 class HeaderContainer extends React.Component<HeaderContainerPropsType, any> {
 
     componentDidMount() {
-        axios.get(`https://social-network.samuraijs.com/api/1.0/auth/me`, {
-            withCredentials: true
-
-        }).then(response => {
-            if (response.data.resultCode === 0) {
-                let {email, id, login} = response.data.data
+       userAPI.getMyId()
+           .then(response => {
+               // debugger
+            if (response.resultCode === 0) {
+                let {email, id, login} = response.data
+                console.log(response)
                 let data:AuthUserType={userId:id, email,login,isAuth:true}
                 this.props.setAuthUserData(data)
             }
+            return response
 
-        }).then(() => {
-            axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${this.props.id}`, {
-                withCredentials: true
+        })
+           .then((response) => {
+            userAPI.getProfile(response.data.id)
+                .then(response => {
+                this.props.setAuthUserPhoto(response.photos.small)
 
-            }).then(response => {
-                this.props.setAuthUserPhoto(response.data.photos.small)
-                console.log(response.data.photos.small)
             })
         })
     }
