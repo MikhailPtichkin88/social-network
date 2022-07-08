@@ -1,33 +1,60 @@
-
-const initialState = {
-    userId:null,
-    email:null,
-    login:null,
-    isAuth:false,
+export type AuthUserType = {
+    userId: null | string,
+    email: null | string,
+    login: null | string,
+    isAuth: boolean,
 }
 
-export type AuthDataType = typeof initialState
+export type AuthProfileType = {
+    photo: null | string
+}
+
+export type AuthDataType = {
+    user: AuthUserType,
+    profile: AuthProfileType
+}
+
+const initialState = {
+    user: {
+        userId: null,
+        email: null,
+        login: null,
+        isAuth: false,
+    },
+    profile: {
+        photo: null
+    }
+}
 
 
-export const authReducer = (state:AuthDataType = initialState, action:ActionType):AuthDataType =>{
-    switch(action.type){
+export const authReducer = (state: AuthDataType = initialState, action: ActionType): AuthDataType => {
+    switch (action.type) {
         case "SET-USER-DATA":
-            return {...state, ...action.payload.data}
-        // case "xxx":
-        //     return state
+            return {...state, user: {...action.payload.data}}
+        case "SET-USER-PHOTO":
+            return {...state, profile: {...state.profile, photo: action.payload.photo}}
         default:
             return state
     }
 }
 
-type ActionType = SetUserDataType
+type ActionType = SetUserDataType | SetUserPhotoType
 
-export type SetUserDataType = ReturnType<typeof setAuthUserData>
-export const setAuthUserData = (data:AuthDataType)=>{
+export type SetUserDataType = ReturnType<typeof setAuthUserDataAC>
+export const setAuthUserDataAC = (data: AuthUserType) => {
     return {
         type: 'SET-USER-DATA',
-        payload:{
+        payload: {
             data
         }
-    }as const
+    } as const
+}
+export type SetUserPhotoType = ReturnType<typeof setAuthUserPhotoAC>
+export const setAuthUserPhotoAC = (photo: string) => {
+    return {
+        type: 'SET-USER-PHOTO',
+        payload: {
+            photo
+        }
+    } as const
 }

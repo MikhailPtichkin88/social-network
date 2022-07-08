@@ -38,7 +38,7 @@ const usersReducer = (state: UsersType = initialState, action: UsersActionType):
                 ...state,
                 users: state.users.map(t => t.id === action.payload.userId ? {
                     ...t,
-                    followed: action.payload.isFollowed
+                    followed: action.payload.followed
                 } : t)
             }
 
@@ -56,21 +56,31 @@ const usersReducer = (state: UsersType = initialState, action: UsersActionType):
 }
 
 
-export type UsersActionType = followChangerACType | setUsersACType | currentPageChangerACType | setTotalUsersCountACType | SetIsFetchingACType
+export type UsersActionType = followChangerACType | setUsersACType | currentPageChangerACType | setTotalUsersCountACType | SetIsFetchingACType | unFollowChangerACType
 
-type followChangerACType = ReturnType<typeof followChangerAC>
-
-export const followChangerAC = (userId: string, isFollowed: boolean) => {
+export type followChangerACType = ReturnType<typeof followChangerAC>
+export const followChangerAC = (userId: string) => {
     return {
         type: "FOLLOW-UNFOLLOW",
         payload: {
             userId,
-            isFollowed,
+            followed:true,
         }
     } as const
 }
 
-type setUsersACType = ReturnType<typeof setUsersAC>
+export type unFollowChangerACType = ReturnType<typeof unFollowChangerAC>
+export const unFollowChangerAC = (userId: string) => {
+    return {
+        type: "FOLLOW-UNFOLLOW",
+        payload: {
+            userId,
+            followed:false,
+        }
+    } as const
+}
+
+export type setUsersACType = ReturnType<typeof setUsersAC>
 export const setUsersAC = (users: Array<UserType>) => {
     return {
         type: "SET-USERS",
@@ -80,7 +90,7 @@ export const setUsersAC = (users: Array<UserType>) => {
     } as const
 }
 
-type currentPageChangerACType = ReturnType<typeof currentPageChangerAC>
+export type currentPageChangerACType = ReturnType<typeof currentPageChangerAC>
 export const currentPageChangerAC = (value: number) => {
     return {
         type: "CHANGE-CURRENT-PAGE",
@@ -90,7 +100,7 @@ export const currentPageChangerAC = (value: number) => {
     } as const
 }
 
-type setTotalUsersCountACType = ReturnType<typeof setTotalUsersCountAC>
+export type setTotalUsersCountACType = ReturnType<typeof setTotalUsersCountAC>
 export const setTotalUsersCountAC = (value: number) => {
     return {
         type: "CHANGE-TOTAL-COUNT",
@@ -100,7 +110,7 @@ export const setTotalUsersCountAC = (value: number) => {
     } as const
 }
 
-type SetIsFetchingACType = ReturnType<typeof setIsFetchingAC>
+export type SetIsFetchingACType = ReturnType<typeof setIsFetchingAC>
 export const setIsFetchingAC = (isFetching:boolean)=>{
     return{
         type: 'TOGGLE-IS-FETCHING',

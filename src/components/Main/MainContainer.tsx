@@ -3,26 +3,16 @@ import {ReduxStoreType} from "../../redux/redux-store";
 import Main from "./Main";
 import axios from "axios";
 import {connect} from "react-redux";
-import {ProfileUserType, setUserProfileAC, UserProfileContactsType} from "../../redux/profile-reducer";
+import {
+    ProfileUserType,
+    setUserProfileAC,
+    setUserProfileACType,
+} from "../../redux/profile-reducer";
 import {RouteComponentProps, withRouter} from "react-router-dom";
-import {AuthDataType} from "../../redux/auth-reducer";
 
-type MainContainerPropsType = RouteComponentProps<ParamType> & OwnParamsType
 
-type mapStateToProps = {
-    profile: ProfileUserType
-    auth:AuthDataType
-}
-type mapDispatchToProps = {
-    setUserProfile: (profile: UserProfileContactsType) => void
-}
-type ParamType = {
-    userId: string
-}
 
-type OwnParamsType = mapStateToProps & mapDispatchToProps
-
-class MainContainer extends React.Component<MainContainerPropsType, ReduxStoreType> {
+class MainContainer extends React.Component<MainContainerPropsType, any> {
 
     componentDidMount() {
         let userId = this.props.auth.userId || "2"
@@ -43,10 +33,16 @@ class MainContainer extends React.Component<MainContainerPropsType, ReduxStoreTy
 
 let mapStateToProps = (state: ReduxStoreType) => ({
     profile: state.profilePage.profile,
-    auth:state.auth
+    auth:state.auth.user
 })
 
-let WithUrlDataContainerComponent: any = withRouter(MainContainer)
+type MainContainerPropsType = mapStateToPropsType & mapDispatchToProps
 
+type mapStateToPropsType = ReturnType<typeof mapStateToProps>
+type mapDispatchToProps = {
+    setUserProfile: (profile: ProfileUserType) => setUserProfileACType
+}
 
-export default connect(mapStateToProps, {setUserProfile: setUserProfileAC})(WithUrlDataContainerComponent);
+let WithUrlDataContainerComponent = withRouter<RouteComponentProps, any>(MainContainer)
+
+export default connect<mapStateToPropsType,mapDispatchToProps,{},ReduxStoreType>(mapStateToProps, {setUserProfile: setUserProfileAC})(WithUrlDataContainerComponent);

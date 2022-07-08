@@ -63,7 +63,7 @@ const profileReducer = (state = initialState, action: ProfileActionType): Profil
 export type ProfileActionType = addPostActionCreatorType | changePostActionCreatorType | setUserProfileACType
 type addPostActionCreatorType = ReturnType<typeof addPostActionCreator>
 type changePostActionCreatorType = ReturnType<typeof changePostActionCreator>
-type setUserProfileACType = ReturnType<typeof setUserProfileAC>
+export type setUserProfileACType = ReturnType<typeof setUserProfileAC>
 
 export const addPostActionCreator = (text: string) => {
     return {

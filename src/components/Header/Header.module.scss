@@ -3,17 +3,38 @@
   background-color: powderblue;
   padding: 0 15px;
 }
-.wrapper{
+
+.wrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.img{
+
+.logo {
   display: block;
   width: 150px;
   height: 60px;
 }
-.link{
+
+.loginBlock {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.userName {
+  font-size: 16px;
+  letter-spacing: 0.05em;
+}
+
+.loginLink {
   font-size: 18px;
   color: #000;
   text-decoration: underline;

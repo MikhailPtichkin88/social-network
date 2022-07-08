@@ -1,48 +1,60 @@
 import React from 'react';
 import Header from "./Header";
-import {AuthDataType, setAuthUserData, SetUserDataType} from "../../redux/auth-reducer";
+import {
+    AuthDataType, AuthUserType, setAuthUserDataAC,
+    setAuthUserPhotoAC,
+    SetUserDataType, SetUserPhotoType
+} from "../../redux/auth-reducer";
 import axios from "axios";
 import {connect} from "react-redux";
 import {ReduxStoreType} from "../../redux/redux-store";
 
 
-class HeaderContainer extends React.Component<HeaderContainerPropsType, ReduxStoreType> {
+class HeaderContainer extends React.Component<HeaderContainerPropsType, any> {
 
     componentDidMount() {
         axios.get(`https://social-network.samuraijs.com/api/1.0/auth/me`, {
             withCredentials: true
+
         }).then(response => {
             if (response.data.resultCode === 0) {
                 let {email, id, login} = response.data.data
-                this.props.setAuthUserData({userId: id, email, login, isAuth:true})
+                let data:AuthUserType={userId:id, email,login,isAuth:true}
+                this.props.setAuthUserData(data)
             }
-        }).then(()=>{
+
+        }).then(() => {
             axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${this.props.id}`, {
                 withCredentials: true
-            }).then(response =>            console.log(response.data))
-        })
 
+            }).then(response => {
+                this.props.setAuthUserPhoto(response.data.photos.small)
+                console.log(response.data.photos.small)
+            })
+        })
     }
 
     render() {
         return (
             <>
-                <Header isAuth={this.props.isAuth} login={this.props.login}/>
+                <Header isAuth={this.props.isAuth} login={this.props.login} photo={this.props.photo}/>
             </>
         );
     }
 }
-
-type setAuthUserDataType = {
-    setAuthUserData: (data: AuthDataType) => SetUserDataType
+type MapStateToPropsType = ReturnType<typeof mapStateToProps>
+type MapDispatchToPropsType = {
+    setAuthUserData: (data: AuthUserType) => SetUserDataType
+    setAuthUserPhoto: (photo: string) => SetUserPhotoType
 }
-type HeaderContainerPropsType = ReturnType<typeof mapStateToProps> & setAuthUserDataType
+type HeaderContainerPropsType =MapStateToPropsType & MapDispatchToPropsType
 
 
 const mapStateToProps = (state: ReduxStoreType) => ({
-    isAuth:state.auth.isAuth,
-    login:state.auth.login,
-    id: state.auth.userId
+    isAuth: state.auth.user.isAuth,
+    login: state.auth.user.login,
+    id: state.auth.user.userId,
+    photo: state.auth.profile.photo
 })
 
-export default connect(mapStateToProps, {setAuthUserData})(HeaderContainer);
+export default connect<MapStateToPropsType, MapDispatchToPropsType, {},ReduxStoreType>(mapStateToProps, {setAuthUserData: setAuthUserDataAC, setAuthUserPhoto:setAuthUserPhotoAC})(HeaderContainer);

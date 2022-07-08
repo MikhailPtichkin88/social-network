@@ -9,7 +9,8 @@ type UsersPresentationPropsType ={
     pageSize:number
     currentPage:number
     onClickHandler:(p:number)=>void
-    onChangeHandler:(userId: string, isFollowed: boolean) =>void
+    followChangerAC:(userId: string) =>void
+    unFollowChangerAC:(userId: string) =>void
     users:Array<UserType>
 }
 
@@ -49,14 +50,13 @@ const Users = (props:UsersPresentationPropsType) => {
             <ul className={c.users_list}>
                 {
                     props.users.map(u => {
-                        const onChangeHandler = (isFollowed: boolean) => {
-                            props.onChangeHandler(u.id, isFollowed)
-                        }
+                        const onFollowHandler = () => props.followChangerAC(u.id)
+                        const onUnFollowHandler = () => props.unFollowChangerAC(u.id)
                         const photo = (u.photos.small || u.photos.large) ? (u.photos.small || u.photos.large) : ava
 
                         return <li key={u.id} className={c.users_item}>
                             <User userId={u.id} photoUrl={photo} name={u.name} status={u.status} link={u.uniqueUrlName}
-                                  city="User.city" isFollowed={u.followed} callback={onChangeHandler}/>
+                                  city="User.city" isFollowed={u.followed} onFollowHandler={onFollowHandler} onUnFollowHandler={onUnFollowHandler}/>
                         </li>
                     })
                 }
