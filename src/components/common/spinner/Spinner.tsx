@@ -9,10 +9,10 @@ type SpinnerPropsType={
 
 const Spinner = (props:SpinnerPropsType) => {
 
-    let style = `${c.img} ${props.style} ${props.show ? c.visible : ""}`
+    let style = `  ${c.img} ${props.show ? c.visible : ""}`
 
     return (
-        <div className={c.wrapper}>
+        <div className={c.wrapper+' '+props.style}>
             <img className={style} src={spinner}/>
         </div>
     );

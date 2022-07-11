@@ -4,20 +4,22 @@ import ava from "../../images/avatars/Sveta.svg";
 import User from "./User/User";
 import {UserType} from "../../redux/users-reducer";
 
-type UsersPresentationPropsType ={
-    totalUsersCount:number
-    pageSize:number
-    currentPage:number
-    onClickHandler:(p:number)=>void
-    followChangerAC:(userId: string) =>void
-    unFollowChangerAC:(userId: string) =>void
-    users:Array<UserType>
+type UsersPresentationPropsType = {
+    totalUsersCount: number
+    pageSize: number
+    currentPage: number
+    onClickHandler: (p: number) => void
+    followChangerAC: (userId: string) => void
+    unFollowChangerAC: (userId: string) => void
+    users: Array<UserType>
+    isFollowingInProgress: number[]
+    setIsFollowingAC: (userId: number, isFetching: boolean) => void
 }
 
 
-const Users = (props:UsersPresentationPropsType) => {
+const Users = (props: UsersPresentationPropsType) => {
 
-    let pagesCount = Math.ceil( props.totalUsersCount / props.pageSize)
+    let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize)
     let pages: Array<number> = []
 
     for (let i = 1; i <= pagesCount; i++) {
@@ -26,7 +28,7 @@ const Users = (props:UsersPresentationPropsType) => {
 
     let curP = props.currentPage;
     let curPF = ((curP - 3) < 0) ? 0 : curP - 3;
-    let curPL = ((curP) > 3) ? curP+3 : curP + 2;
+    let curPL = ((curP) > 3) ? curP + 3 : curP + 2;
     let slicedPages = pages.slice(curPF, curPL);
 
 
@@ -37,7 +39,7 @@ const Users = (props:UsersPresentationPropsType) => {
                 {
                     slicedPages.map(p => {
 
-                        let pageClasses =  props.currentPage === (p) ? c.paginationLink + ' ' + c.activePage : c.paginationLink
+                        let pageClasses = props.currentPage === (p) ? c.paginationLink + ' ' + c.activePage : c.paginationLink
 
                         return <li key={p} className={c.paginationItem}>
                             <button onClick={() => props.onClickHandler(p)} className={pageClasses}>{p}
@@ -55,8 +57,17 @@ const Users = (props:UsersPresentationPropsType) => {
                         const photo = (u.photos.small || u.photos.large) ? (u.photos.small || u.photos.large) : ava
 
                         return <li key={u.id} className={c.users_item}>
-                            <User userId={u.id} photoUrl={photo} name={u.name} status={u.status} link={u.uniqueUrlName}
-                                  city="User.city" isFollowed={u.followed} onFollowHandler={onFollowHandler} onUnFollowHandler={onUnFollowHandler}/>
+                            <User userId={u.id}
+                                  photoUrl={photo}
+                                  name={u.name}
+                                  status={u.status}
+                                  link={u.uniqueUrlName}
+                                  city="User.city"
+                                  isFollowed={u.followed}
+                                  onFollowHandler={onFollowHandler}
+                                  onUnFollowHandler={onUnFollowHandler}
+                                  isFollowingInProgress={props.isFollowingInProgress}
+                                  setIsFollowingAC={props.setIsFollowingAC}/>
                         </li>
                     })
                 }

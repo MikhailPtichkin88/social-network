@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import c from './Users.module.scss'
 import {
     currentPageChangerAC,
-    followChangerAC, setIsFetchingAC,
+    followChangerAC, setIsFetchingAC, setIsFollowingAC,
     setTotalUsersCountAC,
     setUsersAC, unFollowChangerAC,
     UserType
@@ -46,6 +46,8 @@ class UsersAPI extends React.Component<UsersPropsType, ReduxStoreType> {   //Ñ‚Ð
                    followChangerAC={this.props.followChangerAC}
                    unFollowChangerAC={this.props.unFollowChangerAC}
                    users={this.props.users}
+                   isFollowingInProgress={this.props.isFollowingInProgress}
+                   setIsFollowingAC={this.props.setIsFollowingAC}
             />
         </>
     }
@@ -57,6 +59,7 @@ type MapStateToPropsType = {
     totalUsersCount: number
     currentPage: number
     isFetching: boolean
+    isFollowingInProgress:number[]
 }
 
 type MapDispatchToProps = {
@@ -66,6 +69,7 @@ type MapDispatchToProps = {
     currentPageChangerAC: (value: number) => void
     setTotalUsersCountAC: (count: number) => void
     setIsFetchingAC: (isFetching: boolean) => void
+    setIsFollowingAC: (userId:number, isFetching:boolean) => void
 }
 
 export type UsersPropsType = MapStateToPropsType & MapDispatchToProps
@@ -78,6 +82,7 @@ let mapStateToProps = (state: ReduxStoreType): MapStateToPropsType => {
         totalUsersCount: state.usersPage.totalUsersCount,
         currentPage: state.usersPage.currentPage,
         isFetching: state.usersPage.isFetching,
+        isFollowingInProgress:state.usersPage.isFollowingInProgress
     }
 }
 
@@ -88,6 +93,7 @@ const UsersContainer = connect<MapStateToPropsType, MapDispatchToProps, {}, Redu
     currentPageChangerAC,
     setTotalUsersCountAC,
     setIsFetchingAC,
+    setIsFollowingAC,
 })(UsersAPI)
 export default UsersContainer
 

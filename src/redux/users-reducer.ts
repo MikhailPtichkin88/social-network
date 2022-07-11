@@ -19,7 +19,8 @@ export type UsersType = {
     pageSize: number,
     totalUsersCount: number,
     currentPage: number,
-    isFetching: boolean
+    isFetching: boolean,
+    isFollowingInProgress:number[]
 }
 
 let initialState: UsersType = {
@@ -27,7 +28,8 @@ let initialState: UsersType = {
     pageSize: 5,
     totalUsersCount: 19,
     currentPage: 1,
-    isFetching: false
+    isFetching: false,
+    isFollowingInProgress: [],
 }
 
 const usersReducer = (state: UsersType = initialState, action: UsersActionType): UsersType => {
@@ -50,13 +52,18 @@ const usersReducer = (state: UsersType = initialState, action: UsersActionType):
             return {...state, totalUsersCount: action.payload.value}
         case "TOGGLE-IS-FETCHING":
             return {...state, isFetching:action.payload.isFetching}
+        case "TOGGLE-IS-FOLLOWING":
+            return {...state,
+                isFollowingInProgress: action.payload.isFetching
+            ? [...state.isFollowingInProgress, action.payload.userId]
+            : state.isFollowingInProgress.filter(id=>id!== action.payload.userId)}
         default:
             return state
     }
 }
 
 
-export type UsersActionType = followChangerACType | setUsersACType | currentPageChangerACType | setTotalUsersCountACType | SetIsFetchingACType | unFollowChangerACType
+export type UsersActionType = followChangerACType | setUsersACType | currentPageChangerACType | setTotalUsersCountACType | SetIsFetchingACType | unFollowChangerACType | SetIsFollowingACType
 
 export type followChangerACType = ReturnType<typeof followChangerAC>
 export const followChangerAC = (userId: string) => {
@@ -116,6 +123,17 @@ export const setIsFetchingAC = (isFetching:boolean)=>{
         type: 'TOGGLE-IS-FETCHING',
         payload:{
             isFetching
+        }
+    }as const
+}
+
+export type SetIsFollowingACType = ReturnType<typeof setIsFollowingAC>
+export const setIsFollowingAC = (userId:number, isFetching:boolean)=>{
+    return{
+        type: 'TOGGLE-IS-FOLLOWING',
+        payload:{
+            userId,
+            isFetching,
         }
     }as const
 }

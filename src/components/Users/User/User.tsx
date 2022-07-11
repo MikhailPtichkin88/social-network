@@ -4,6 +4,7 @@ import {v1} from 'uuid';
 import {NavLink} from "react-router-dom";
 import axios from "axios";
 import {userAPI} from "../../../api/api";
+import Spinner from "../../common/spinner/Spinner";
 
 
 type UserPropsType = {
@@ -16,32 +17,42 @@ type UserPropsType = {
     onFollowHandler: () => void
     onUnFollowHandler: () => void
     userId: string
+    isFollowingInProgress: number[]
+    setIsFollowingAC: (userId: number, isFetching: boolean) => void
 }
 
 const User = (props: UserPropsType) => {
+    let showSpinner = props.isFollowingInProgress.some(el => el === +props.userId)
 
     const onFollowClickHandler = () => {
+        props.setIsFollowingAC(+props.userId, true)
 
         userAPI.followUser(props.userId)
             .then(response => {
-            if(response.resultCode===0){
-                props.onFollowHandler()
-            }
-        })
+                if (response.resultCode === 0) {
+                    props.onFollowHandler()
+                }
+                props.setIsFollowingAC(+props.userId, false)
+            })
+
     }
 
     const onUnFollowClickHandler = () => {
+        props.setIsFollowingAC(+props.userId, true)
 
         userAPI.unFollowUser(props.userId)
             .then(response => {
-            if(response.resultCode===0){
-                props.onUnFollowHandler()
-            }
-        })
+                if (response.resultCode === 0) {
+                    props.onUnFollowHandler()
+                }
+                props.setIsFollowingAC(+props.userId, false)
+            })
+
     }
 
 
-    let inputId = v1()
+
+
     return (
         <div className={c.wrapper}>
             <div className={c.photo_info}>
@@ -50,9 +61,16 @@ const User = (props: UserPropsType) => {
                 </NavLink>
                 {
                     props.isFollowed
-                        ? <button className={c.followBtn+' '+c.isFollowed} onClick={onUnFollowClickHandler}>Unfollow</button>
+                        ? <button disabled={showSpinner} className={c.followBtn + ' ' + c.isFollowed}
+                                  onClick={onUnFollowClickHandler}>
+                            {showSpinner
+                                ? <Spinner show={true} style={c.spinner}/>
+                                : 'Unfollow'}</button>
 
-                        : <button className={c.followBtn} onClick={onFollowClickHandler}>Follow</button>
+                        : <button disabled={showSpinner} className={c.followBtn} onClick={onFollowClickHandler}>
+                            {showSpinner
+                                ? <Spinner show={true} style={c.spinner}/>
+                                : 'Follow'}</button>
                 }
 
             </div>
