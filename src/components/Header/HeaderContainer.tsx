@@ -1,38 +1,16 @@
 import React from 'react';
 import Header from "./Header";
 import {
-    AuthDataType, AuthUserType, setAuthUserDataAC,
-    setAuthUserPhotoAC,
-    SetUserDataType, SetUserPhotoType
+    getMyId
 } from "../../redux/auth-reducer";
-import axios from "axios";
 import {connect} from "react-redux";
 import {ReduxStoreType} from "../../redux/redux-store";
-import {userAPI} from "../../api/api";
 
 
 class HeaderContainer extends React.Component<HeaderContainerPropsType, any> {
 
     componentDidMount() {
-       userAPI.getMyId()
-           .then(response => {
-               // debugger
-            if (response.resultCode === 0) {
-                let {email, id, login} = response.data
-                console.log(response)
-                let data:AuthUserType={userId:id, email,login,isAuth:true}
-                this.props.setAuthUserData(data)
-            }
-            return response
-
-        })
-           .then((response) => {
-            userAPI.getProfile(response.data.id)
-                .then(response => {
-                this.props.setAuthUserPhoto(response.photos.small)
-
-            })
-        })
+        this.props.getMyId()
     }
 
     render() {
@@ -43,12 +21,12 @@ class HeaderContainer extends React.Component<HeaderContainerPropsType, any> {
         );
     }
 }
+
 type MapStateToPropsType = ReturnType<typeof mapStateToProps>
 type MapDispatchToPropsType = {
-    setAuthUserData: (data: AuthUserType) => SetUserDataType
-    setAuthUserPhoto: (photo: string) => SetUserPhotoType
+    getMyId: () => void
 }
-type HeaderContainerPropsType =MapStateToPropsType & MapDispatchToPropsType
+type HeaderContainerPropsType = MapStateToPropsType & MapDispatchToPropsType
 
 
 const mapStateToProps = (state: ReduxStoreType) => ({
@@ -58,4 +36,4 @@ const mapStateToProps = (state: ReduxStoreType) => ({
     photo: state.auth.profile.photo
 })
 
-export default connect<MapStateToPropsType, MapDispatchToPropsType, {},ReduxStoreType>(mapStateToProps, {setAuthUserData: setAuthUserDataAC, setAuthUserPhoto:setAuthUserPhotoAC})(HeaderContainer);
+export default connect<MapStateToPropsType, MapDispatchToPropsType, {}, ReduxStoreType>(mapStateToProps, {getMyId})(HeaderContainer);

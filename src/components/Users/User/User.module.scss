@@ -19,33 +19,35 @@
 }
 
 .followBtn {
-position: relative;
-    padding: 4px;
-    width: 70px;
-    height: 24px;
-    background-color: aliceblue;
-    color: #000;
-    text-align: center;
-    font-size: 12px;
-    border-radius: 5px;
-    border: 1px solid powderblue;
+  position: relative;
+  padding: 4px;
+  width: 70px;
+  height: 24px;
+  background-color: aliceblue;
+  color: #000;
+  text-align: center;
+  font-size: 12px;
+  border-radius: 5px;
+  border: 1px solid powderblue;
   cursor: pointer;
   letter-spacing: 0.03em;
-  &:disabled{
+
+  &:disabled {
     background-color: transparent;
   }
-  }
+}
 
 
 .isFollowed {
-      background-color: powderblue;
-      color: #000;
+  background-color: powderblue;
+  color: #000;
+  cursor: pointer;
 }
 
 .info {
   padding: 20px;
   width: 70%;
-  height: 100px;
+  min-height: 100px;
   display: flex;
   justify-content: space-between;
   border: 1px solid powderblue;
@@ -73,7 +75,8 @@ position: relative;
   align-items: center;
   gap: 10px;
 }
-.spinner{
+
+.spinner {
   width: 30px;
   height: 30px;
   position: absolute;

@@ -1,10 +1,8 @@
 import React from 'react';
 import c from './Header.module.scss'
-
 import logo from "../../images/logo.svg";
 import ava from '../../images/avatar.jpg'
 import {NavLink} from "react-router-dom";
-import {PhotosType} from "../../redux/users-reducer";
 
 type HeaderPropsType = {
     isAuth: boolean

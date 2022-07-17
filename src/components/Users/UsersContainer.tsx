@@ -3,36 +3,24 @@ import {connect} from 'react-redux';
 import c from './Users.module.scss'
 import {
     currentPageChangerAC,
-    followChangerAC, setIsFetchingAC, setIsFollowingAC,
-    setTotalUsersCountAC,
-    setUsersAC, unFollowChangerAC,
+    followSuccess, getUsers, setIsFollowingAC,
+    unfollowSuccess,
     UserType
 } from '../../redux/users-reducer';
 import {ReduxStoreType} from '../../redux/redux-store';
 import Users from './Users';
 import Spinner from "../common/spinner/Spinner";
-import {userAPI} from "../../api/api";
 
 
 class UsersAPI extends React.Component<UsersPropsType, ReduxStoreType> {   //типизация <пропсов, стейта>
 
     componentDidMount() {
-        this.props.setIsFetchingAC(true)
-        userAPI.getUsers(this.props.currentPage, this.props.pageSize).then(response => {
-            this.props.setIsFetchingAC(false)
-            this.props.setUsersAC(response.items)
-            this.props.setTotalUsersCountAC(response.totalCount)
-        })
+        this.props.getUsers(this.props.currentPage, this.props.pageSize)
     }
 
     onClickHandler = (p: number) => {
-
         this.props.currentPageChangerAC(p)
-        this.props.setIsFetchingAC(true)
-        userAPI.getUsers(p, this.props.pageSize).then(response => {
-            this.props.setIsFetchingAC(false)
-            this.props.setUsersAC(response.items)
-        })
+        this.props.getUsers(p, this.props.pageSize)
     }
 
     render() {
@@ -43,11 +31,10 @@ class UsersAPI extends React.Component<UsersPropsType, ReduxStoreType> {   //т�
                    pageSize={this.props.pageSize}
                    currentPage={this.props.currentPage}
                    onClickHandler={this.onClickHandler}
-                   followChangerAC={this.props.followChangerAC}
-                   unFollowChangerAC={this.props.unFollowChangerAC}
                    users={this.props.users}
                    isFollowingInProgress={this.props.isFollowingInProgress}
-                   setIsFollowingAC={this.props.setIsFollowingAC}
+                   followSuccess={this.props.followSuccess}
+                   unfollowSuccess={this.props.unfollowSuccess}
             />
         </>
     }
@@ -59,17 +46,14 @@ type MapStateToPropsType = {
     totalUsersCount: number
     currentPage: number
     isFetching: boolean
-    isFollowingInProgress:number[]
+    isFollowingInProgress: number[]
 }
 
 type MapDispatchToProps = {
-    followChangerAC: (userId: string) => void
-    unFollowChangerAC: (userId: string) => void
-    setUsersAC: (users: Array<UserType>) => void
     currentPageChangerAC: (value: number) => void
-    setTotalUsersCountAC: (count: number) => void
-    setIsFetchingAC: (isFetching: boolean) => void
-    setIsFollowingAC: (userId:number, isFetching:boolean) => void
+    getUsers: (currentPage: number, pageSize: number) => void
+    followSuccess: (userId: string) => void
+    unfollowSuccess: (userId: string) => void
 }
 
 export type UsersPropsType = MapStateToPropsType & MapDispatchToProps
@@ -82,18 +66,15 @@ let mapStateToProps = (state: ReduxStoreType): MapStateToPropsType => {
         totalUsersCount: state.usersPage.totalUsersCount,
         currentPage: state.usersPage.currentPage,
         isFetching: state.usersPage.isFetching,
-        isFollowingInProgress:state.usersPage.isFollowingInProgress
+        isFollowingInProgress: state.usersPage.isFollowingInProgress
     }
 }
 
 const UsersContainer = connect<MapStateToPropsType, MapDispatchToProps, {}, ReduxStoreType>(mapStateToProps, {
-    followChangerAC,
-    unFollowChangerAC,
-    setUsersAC,
     currentPageChangerAC,
-    setTotalUsersCountAC,
-    setIsFetchingAC,
-    setIsFollowingAC,
+    getUsers,
+    followSuccess,
+    unfollowSuccess,
 })(UsersAPI)
 export default UsersContainer
 

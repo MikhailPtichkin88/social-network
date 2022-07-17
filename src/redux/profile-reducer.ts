@@ -1,5 +1,8 @@
 import {v1} from "uuid";
 import {PhotosType} from "./users-reducer";
+import {AppDispatch, AppThunk} from "./redux-store";
+import {userAPI} from "../api/api";
+import {AuthUserType, setAuthUserDataAC, setAuthUserPhotoAC} from "./auth-reducer";
 
 // другой вариант типизации
 export type PostsType = {
@@ -86,6 +89,17 @@ export const setUserProfileAC = (profile: ProfileUserType) => {
             profile
         },
     } as const
+}
+
+export const getProfileUser = (userId:string): AppThunk => {
+
+    return (dispatch: AppDispatch) => {
+        userAPI.getProfile(+userId)
+            .then(response => {
+                debugger
+                dispatch(setUserProfileAC(response))
+            })
+    }
 }
 
 export default profileReducer

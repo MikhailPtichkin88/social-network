@@ -1,30 +1,28 @@
 import React from 'react';
 import {ReduxStoreType} from "../../redux/redux-store";
 import Main from "./Main";
-import axios from "axios";
 import {connect} from "react-redux";
 import {
-    ProfileUserType,
-    setUserProfileAC,
-    setUserProfileACType,
+    getProfileUser,
 } from "../../redux/profile-reducer";
 import {RouteComponentProps, withRouter} from "react-router-dom";
-import {userAPI} from "../../api/api";
+import {getMyIdProfile} from "../../redux/auth-reducer";
 
 
-class MainContainer extends React.Component<any, any> {
+
+class MainContainer extends React.Component<MainContainerPropsType, {}> {
 
     componentDidMount() {
-
-        let userId = this.props.match.params.userId || this.props.auth.userId
-
-        userAPI.getProfile(userId)
-            .then(response => {
-                this.props.setUserProfile(response)
-            })
+debugger
+        let userId = this.props.match.params.userId  || this.props.auth.userId
+        if (userId === 'null'){
+            this.props.getMyIdProfile()
+        }
     }
 
+
     render() {
+        console.log(this.props)
         return (
             <>
                 <Main profile={this.props.profile}/>
@@ -39,14 +37,15 @@ let mapStateToProps = (state: ReduxStoreType) => ({
     auth: state.auth.user
 })
 
-type MainContainerPropsType = mapStateToPropsType & mapDispatchToProps & RouteComponentProps
+type MainContainerPropsType = mapStateToPropsType & mapDispatchToProps & RouteComponentProps<{ userId: string }, {}, {}>
+
 
 type mapStateToPropsType = ReturnType<typeof mapStateToProps>
 type mapDispatchToProps = {
-    setUserProfile: (profile: ProfileUserType) => setUserProfileACType
+    getProfileUser: (userId: string) => void
+    getMyIdProfile:()=>void
 }
-
 
 let WithUrlDataContainerComponent = withRouter<any, any>(MainContainer)
 
-export default connect<mapStateToPropsType, mapDispatchToProps, {}, ReduxStoreType>(mapStateToProps, {setUserProfile: setUserProfileAC})(WithUrlDataContainerComponent);
+export default connect<mapStateToPropsType, mapDispatchToProps, {}, ReduxStoreType>(mapStateToProps, {getProfileUser,getMyIdProfile})(WithUrlDataContainerComponent);

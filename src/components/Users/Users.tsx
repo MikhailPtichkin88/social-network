@@ -2,18 +2,17 @@ import React from 'react';
 import c from "./Users.module.scss";
 import ava from "../../images/avatars/Sveta.svg";
 import User from "./User/User";
-import {UserType} from "../../redux/users-reducer";
+import { UserType} from "../../redux/users-reducer";
 
 type UsersPresentationPropsType = {
     totalUsersCount: number
     pageSize: number
     currentPage: number
     onClickHandler: (p: number) => void
-    followChangerAC: (userId: string) => void
-    unFollowChangerAC: (userId: string) => void
+    followSuccess: (userId: string) => void
+    unfollowSuccess: (userId: string) => void
     users: Array<UserType>
     isFollowingInProgress: number[]
-    setIsFollowingAC: (userId: number, isFetching: boolean) => void
 }
 
 
@@ -52,8 +51,6 @@ const Users = (props: UsersPresentationPropsType) => {
             <ul className={c.users_list}>
                 {
                     props.users.map(u => {
-                        const onFollowHandler = () => props.followChangerAC(u.id)
-                        const onUnFollowHandler = () => props.unFollowChangerAC(u.id)
                         const photo = (u.photos.small || u.photos.large) ? (u.photos.small || u.photos.large) : ava
 
                         return <li key={u.id} className={c.users_item}>
@@ -64,10 +61,9 @@ const Users = (props: UsersPresentationPropsType) => {
                                   link={u.uniqueUrlName}
                                   city="User.city"
                                   isFollowed={u.followed}
-                                  onFollowHandler={onFollowHandler}
-                                  onUnFollowHandler={onUnFollowHandler}
-                                  isFollowingInProgress={props.isFollowingInProgress}
-                                  setIsFollowingAC={props.setIsFollowingAC}/>
+                                  followSuccess={props.followSuccess}
+                                  unfollowSuccess={props.unfollowSuccess}
+                                  isFollowingInProgress={props.isFollowingInProgress}/>
                         </li>
                     })
                 }

@@ -1,11 +1,7 @@
-import React, {ChangeEvent, useEffect} from 'react';
+import React from 'react';
 import c from './User.module.scss'
-import {v1} from 'uuid';
 import {NavLink} from "react-router-dom";
-import axios from "axios";
-import {userAPI} from "../../../api/api";
 import Spinner from "../../common/spinner/Spinner";
-
 
 type UserPropsType = {
     photoUrl: string
@@ -14,44 +10,22 @@ type UserPropsType = {
     link: string
     city: string
     isFollowed: boolean
-    onFollowHandler: () => void
-    onUnFollowHandler: () => void
+    followSuccess: (userId: string) => void
+    unfollowSuccess: (userId: string) => void
     userId: string
     isFollowingInProgress: number[]
-    setIsFollowingAC: (userId: number, isFetching: boolean) => void
 }
 
 const User = (props: UserPropsType) => {
     let showSpinner = props.isFollowingInProgress.some(el => el === +props.userId)
 
     const onFollowClickHandler = () => {
-        props.setIsFollowingAC(+props.userId, true)
-
-        userAPI.followUser(props.userId)
-            .then(response => {
-                if (response.resultCode === 0) {
-                    props.onFollowHandler()
-                }
-                props.setIsFollowingAC(+props.userId, false)
-            })
-
+        props.followSuccess(props.userId)
     }
 
     const onUnFollowClickHandler = () => {
-        props.setIsFollowingAC(+props.userId, true)
-
-        userAPI.unFollowUser(props.userId)
-            .then(response => {
-                if (response.resultCode === 0) {
-                    props.onUnFollowHandler()
-                }
-                props.setIsFollowingAC(+props.userId, false)
-            })
-
+        props.unfollowSuccess(props.userId)
     }
-
-
-
 
     return (
         <div className={c.wrapper}>
@@ -72,12 +46,8 @@ const User = (props: UserPropsType) => {
                                 ? <Spinner show={true} style={c.spinner}/>
                                 : 'Follow'}</button>
                 }
-
             </div>
-
-
             <div className={c.info}>
-
                 <div className={c.left}>
                     <p className={c.name}>{props.name}</p>
                     <p className={c.status}>{props.status}</p>

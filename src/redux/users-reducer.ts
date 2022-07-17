@@ -1,4 +1,6 @@
-import {v1} from "uuid";
+import {userAPI} from "../api/api";
+import {AppDispatch, AppThunk} from "./redux-store";
+
 
 export type PhotosType = {
     large: string
@@ -20,7 +22,7 @@ export type UsersType = {
     totalUsersCount: number,
     currentPage: number,
     isFetching: boolean,
-    isFollowingInProgress:number[]
+    isFollowingInProgress: number[]
 }
 
 let initialState: UsersType = {
@@ -51,19 +53,28 @@ const usersReducer = (state: UsersType = initialState, action: UsersActionType):
         case "CHANGE-TOTAL-COUNT":
             return {...state, totalUsersCount: action.payload.value}
         case "TOGGLE-IS-FETCHING":
-            return {...state, isFetching:action.payload.isFetching}
+            return {...state, isFetching: action.payload.isFetching}
         case "TOGGLE-IS-FOLLOWING":
-            return {...state,
+            return {
+                ...state,
                 isFollowingInProgress: action.payload.isFetching
-            ? [...state.isFollowingInProgress, action.payload.userId]
-            : state.isFollowingInProgress.filter(id=>id!== action.payload.userId)}
+                    ? [...state.isFollowingInProgress, action.payload.userId]
+                    : state.isFollowingInProgress.filter(id => id !== action.payload.userId)
+            }
         default:
             return state
     }
 }
 
 
-export type UsersActionType = followChangerACType | setUsersACType | currentPageChangerACType | setTotalUsersCountACType | SetIsFetchingACType | unFollowChangerACType | SetIsFollowingACType
+export type UsersActionType =
+    followChangerACType
+    | setUsersACType
+    | currentPageChangerACType
+    | setTotalUsersCountACType
+    | SetIsFetchingACType
+    | unFollowChangerACType
+    | SetIsFollowingACType
 
 export type followChangerACType = ReturnType<typeof followChangerAC>
 export const followChangerAC = (userId: string) => {
@@ -71,7 +82,7 @@ export const followChangerAC = (userId: string) => {
         type: "FOLLOW-UNFOLLOW",
         payload: {
             userId,
-            followed:true,
+            followed: true,
         }
     } as const
 }
@@ -82,7 +93,7 @@ export const unFollowChangerAC = (userId: string) => {
         type: "FOLLOW-UNFOLLOW",
         payload: {
             userId,
-            followed:false,
+            followed: false,
         }
     } as const
 }
@@ -118,23 +129,68 @@ export const setTotalUsersCountAC = (value: number) => {
 }
 
 export type SetIsFetchingACType = ReturnType<typeof setIsFetchingAC>
-export const setIsFetchingAC = (isFetching:boolean)=>{
-    return{
+export const setIsFetchingAC = (isFetching: boolean) => {
+    return {
         type: 'TOGGLE-IS-FETCHING',
-        payload:{
+        payload: {
             isFetching
         }
-    }as const
+    } as const
 }
 
 export type SetIsFollowingACType = ReturnType<typeof setIsFollowingAC>
-export const setIsFollowingAC = (userId:number, isFetching:boolean)=>{
-    return{
+export const setIsFollowingAC = (userId: number, isFetching: boolean) => {
+    return {
         type: 'TOGGLE-IS-FOLLOWING',
-        payload:{
+        payload: {
             userId,
             isFetching,
         }
-    }as const
+    } as const
 }
+
+// thunk
+export const getUsers = (currentPage: number, pageSize: number): AppThunk => {
+    return (dispatch: AppDispatch) => {
+        dispatch(setIsFetchingAC(true))
+        userAPI.getUsers(currentPage, pageSize).then(response => {
+            dispatch(setIsFetchingAC(false))
+            dispatch(setUsersAC(response.items))
+            dispatch(setTotalUsersCountAC(response.totalCount))
+        })
+    }
+}
+
+export const followSuccess = (userId: string): AppThunk => {
+    return (dispatch: AppDispatch) => {
+        dispatch(setIsFollowingAC(+userId, true))
+
+        userAPI.followUser(userId)
+            .then(response => {
+                if (response.resultCode === 0) {
+                    dispatch(followChangerAC(userId))
+                }
+                dispatch(setIsFollowingAC(+userId, false))
+            })
+    }
+}
+
+export const unfollowSuccess = (userId: string): AppThunk => {
+    return (dispatch: AppDispatch) => {
+        dispatch(setIsFollowingAC(+userId, true))
+
+        userAPI.unFollowUser(userId)
+            .then(response => {
+                if (response.resultCode === 0) {
+                    dispatch(unFollowChangerAC(userId))
+                }
+                dispatch(setIsFollowingAC(+userId, false))
+            })
+    }
+}
+
 export default usersReducer
+
+
+
+
