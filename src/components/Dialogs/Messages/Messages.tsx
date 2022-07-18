@@ -2,7 +2,6 @@ import React from 'react';
 import c from './Messages.module.scss'
 import Message from "./Message/Message";
 import NewMessageContainer from "./NewMessage/NewMessageContainer";
-import {MessageType} from "../../../redux/dialogs-reducer";
 import {MessagesPropsType} from "./MessagesContainer";
 
 

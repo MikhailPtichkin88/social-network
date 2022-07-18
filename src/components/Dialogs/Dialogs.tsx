@@ -2,7 +2,7 @@ import React from 'react';
 import c from './Dialogs.module.scss'
 import Menu from "./Menu/Menu";
 import MessagesContainer from "./Messages/MessagesContainer";
-import {DialogsType, MessageType} from "../../redux/dialogs-reducer";
+import {DialogsType} from "../../redux/dialogs-reducer";
 import {Redirect} from "react-router-dom";
 
 
@@ -13,7 +13,6 @@ type DialogsPropsType = {
 
 const Dialogs = (props: DialogsPropsType) => {
 
-    console.log(props.isAuth)
     return !props.isAuth
         ? <Redirect to={"Login/"}/>
         : <div className={c.wrapper}>

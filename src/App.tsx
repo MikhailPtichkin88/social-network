@@ -11,7 +11,8 @@ import {AvatarsType} from "./redux/sidebar-reducer";
 import MainContainer from "./components/Main/MainContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import Login from "./components/Login/Login";
-import DialogsContainer from "./components/Dialogs/DialogsContainer";
+import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
+
 
 
 export type AppPropsType = {
