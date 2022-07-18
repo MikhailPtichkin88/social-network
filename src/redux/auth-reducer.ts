@@ -65,8 +65,9 @@ export const setAuthUserPhotoAC = (photo: string) => {
 }
 
 
-export const getMyId = (): AppThunk => {
+export const getMyIdWithPhoto = (): AppThunk => {
     return (dispatch: AppDispatch) => {
+
         userAPI.getMyId()
             .then(response => {
                 if (response.resultCode === 0) {

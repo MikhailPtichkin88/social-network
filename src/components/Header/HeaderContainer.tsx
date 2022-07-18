@@ -1,16 +1,16 @@
 import React from 'react';
 import Header from "./Header";
 import {
-    getMyId
+    getMyIdWithPhoto
 } from "../../redux/auth-reducer";
 import {connect} from "react-redux";
 import {ReduxStoreType} from "../../redux/redux-store";
 
 
-class HeaderContainer extends React.Component<HeaderContainerPropsType, any> {
+class HeaderContainer extends React.Component<HeaderContainerPropsType, {}> {
 
     componentDidMount() {
-        this.props.getMyId()
+        this.props.getMyIdWithPhoto()
     }
 
     render() {
@@ -24,7 +24,7 @@ class HeaderContainer extends React.Component<HeaderContainerPropsType, any> {
 
 type MapStateToPropsType = ReturnType<typeof mapStateToProps>
 type MapDispatchToPropsType = {
-    getMyId: () => void
+    getMyIdWithPhoto: () => void
 }
 type HeaderContainerPropsType = MapStateToPropsType & MapDispatchToPropsType
 
@@ -36,4 +36,4 @@ const mapStateToProps = (state: ReduxStoreType) => ({
     photo: state.auth.profile.photo
 })
 
-export default connect<MapStateToPropsType, MapDispatchToPropsType, {}, ReduxStoreType>(mapStateToProps, {getMyId})(HeaderContainer);
+export default connect<MapStateToPropsType, MapDispatchToPropsType, {}, ReduxStoreType>(mapStateToProps, {getMyIdWithPhoto})(HeaderContainer);

@@ -96,7 +96,6 @@ export const getProfileUser = (userId:string): AppThunk => {
     return (dispatch: AppDispatch) => {
         userAPI.getProfile(+userId)
             .then(response => {
-                debugger
                 dispatch(setUserProfileAC(response))
             })
     }

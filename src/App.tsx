@@ -3,7 +3,6 @@ import './App.css';
 import Nav from "./components/Nav/Nav";
 import Footer from "./components/Footer/Footer";
 import {BrowserRouter, Redirect, Route} from "react-router-dom";
-import Dialogs from "./components/Dialogs/Dialogs";
 import { Dispatch} from "redux";
 import UsersContainer from "./components/Users/UsersContainer";
 import {ReduxStoreType} from "./redux/redux-store";
@@ -11,6 +10,8 @@ import {DialogsType} from "./redux/dialogs-reducer";
 import {AvatarsType} from "./redux/sidebar-reducer";
 import MainContainer from "./components/Main/MainContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
+import Login from "./components/Login/Login";
+import DialogsContainer from "./components/Dialogs/DialogsContainer";
 
 
 export type AppPropsType = {
@@ -36,9 +37,12 @@ const App: React.FC<AppPropsType> = (props) => {
 
                     <Route path={'/profile/:userId?'} render={() => <MainContainer  />}/>
 
-                    <Route path={'/messages'} render={() => <Dialogs menuDialogs={menuDialogs}/>}/>
+                    <Route path={'/messages'} render={() => <DialogsContainer />}/>
 
                     <Route path={'/users'} render={() => <UsersContainer/>}/>
+
+                    <Route path={'/login'} render={() => <Login/>}/>
+
                     <Redirect from='/' to={`/profile/${authUserId}`}/>
                 </div>
                 <Footer/>
