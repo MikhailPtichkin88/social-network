@@ -4,14 +4,14 @@ import Nav from "./components/Nav/Nav";
 import Footer from "./components/Footer/Footer";
 import {BrowserRouter, Redirect, Route} from "react-router-dom";
 import { Dispatch} from "redux";
-import UsersContainer from "./components/Users/UsersContainer";
 import {ReduxStoreType} from "./redux/redux-store";
 import {DialogsType} from "./redux/dialogs-reducer";
 import {AvatarsType} from "./redux/sidebar-reducer";
-import MainContainer from "./components/Main/MainContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import Login from "./components/Login/Login";
-import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
+import MainContainer from "./components/Main/MainContainer";
+import DialogsContainer from "./components/Dialogs/DialogsContainer";
+import {UsersContainer} from "./components/Users/UsersContainer";
 
 
 

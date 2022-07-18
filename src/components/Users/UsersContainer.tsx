@@ -1,15 +1,17 @@
-import React from 'react';
+import React, {ComponentType} from 'react';
 import {connect} from 'react-redux';
 import c from './Users.module.scss'
 import {
     currentPageChangerAC,
-    followSuccess, getUsers, setIsFollowingAC,
+    followSuccess, getUsers,
     unfollowSuccess,
     UserType
 } from '../../redux/users-reducer';
 import {ReduxStoreType} from '../../redux/redux-store';
 import Users from './Users';
 import Spinner from "../common/spinner/Spinner";
+import AuthRedirect from "../../hoc/AuthRedirect";
+import {compose} from "redux";
 
 
 class UsersAPI extends React.Component<UsersPropsType, ReduxStoreType> {   //типизация <пропсов, стейта>
@@ -40,15 +42,20 @@ class UsersAPI extends React.Component<UsersPropsType, ReduxStoreType> {   //т�
     }
 }
 
-type MapStateToPropsType = {
-    users: Array<UserType>
-    pageSize: number
-    totalUsersCount: number
-    currentPage: number
-    isFetching: boolean
-    isFollowingInProgress: number[]
-}
 
+export type UsersPropsType = MapStateToPropsType & MapDispatchToProps
+
+type MapStateToPropsType = ReturnType<typeof mapStateToProps>
+let mapStateToProps = (state: ReduxStoreType) => {
+    return {
+        users: state.usersPage.users as Array<UserType>,
+        pageSize: state.usersPage.pageSize,
+        totalUsersCount: state.usersPage.totalUsersCount,
+        currentPage: state.usersPage.currentPage,
+        isFetching: state.usersPage.isFetching,
+        isFollowingInProgress: state.usersPage.isFollowingInProgress as number[]
+    }
+}
 type MapDispatchToProps = {
     currentPageChangerAC: (value: number) => void
     getUsers: (currentPage: number, pageSize: number) => void
@@ -56,26 +63,15 @@ type MapDispatchToProps = {
     unfollowSuccess: (userId: string) => void
 }
 
-export type UsersPropsType = MapStateToPropsType & MapDispatchToProps
+export const UsersContainer = compose<ComponentType>(
+    connect<MapStateToPropsType, MapDispatchToProps, {}, ReduxStoreType>(mapStateToProps, {
+        currentPageChangerAC,
+        getUsers,
+        followSuccess,
+        unfollowSuccess,
+    }),
+    AuthRedirect
+)(UsersAPI)
 
-
-let mapStateToProps = (state: ReduxStoreType): MapStateToPropsType => {
-    return {
-        users: state.usersPage.users,
-        pageSize: state.usersPage.pageSize,
-        totalUsersCount: state.usersPage.totalUsersCount,
-        currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
-        isFollowingInProgress: state.usersPage.isFollowingInProgress
-    }
-}
-
-const UsersContainer = connect<MapStateToPropsType, MapDispatchToProps, {}, ReduxStoreType>(mapStateToProps, {
-    currentPageChangerAC,
-    getUsers,
-    followSuccess,
-    unfollowSuccess,
-})(UsersAPI)
-export default UsersContainer
 
 //  " ...если вы передаете в connect вторым аргументом не mapDispatchToProps, а объект с AC, то connect оборачивает ваши AC в функцию-обертку () => store.dispatch(AC) и передаёт в props компонента."
