@@ -1,8 +1,10 @@
 import {v1} from "uuid";
 import {PhotosType} from "./users-reducer";
 import {AppDispatch, AppThunk} from "./redux-store";
-import {userAPI} from "../api/api";
-import {AuthUserType, setAuthUserDataAC, setAuthUserPhotoAC} from "./auth-reducer";
+import {authAPI, profileAPI} from "../api/api";
+import React, {useEffect} from "react";
+import Main from "../components/Main/Main";
+
 
 // другой вариант типизации
 export type PostsType = {
@@ -38,9 +40,9 @@ let initialState = {
         {id: v1(), message: 'How are you?', likeCount: 5}
     ] as Array<PostsType>,                                  // !!!
     newPostText: "",
-    profile: {} as ProfileUserType
+    profile: {} as ProfileUserType,
+    status: ""
 }
-
 
 export type ProfilePageType = typeof initialState               // !!!
 
@@ -58,15 +60,22 @@ const profileReducer = (state = initialState, action: ProfileActionType): Profil
             return {...state, newPostText: action.textMessage}
         case'SET-USER-PROFILE':
             return {...state, profile: {...state.profile, ...action.payload.profile}}
+        case "SET-STATUS":
+            return {...state, status: action.payload.status}
         default:
             return state
     }
 }
 
-export type ProfileActionType = addPostActionCreatorType | changePostActionCreatorType | setUserProfileACType
+export type ProfileActionType =
+    addPostActionCreatorType
+    | changePostActionCreatorType
+    | setUserProfileACType
+    | setProfileStatusType
 type addPostActionCreatorType = ReturnType<typeof addPostActionCreator>
 type changePostActionCreatorType = ReturnType<typeof changePostActionCreator>
-export type setUserProfileACType = ReturnType<typeof setUserProfileAC>
+type setUserProfileACType = ReturnType<typeof setUserProfileAC>
+type setProfileStatusType = ReturnType<typeof setProfileStatusAC>
 
 export const addPostActionCreator = (text: string) => {
     return {
@@ -91,14 +100,74 @@ export const setUserProfileAC = (profile: ProfileUserType) => {
     } as const
 }
 
-export const getProfileUser = (userId:string): AppThunk => {
+export const setProfileStatusAC = (status: string) => {
+    return {
+        type: "SET-STATUS",
+        payload: {
+            status
+        }
+    } as const
+}
+
+
+export const getMyIdProfile = (): AppThunk => {
+    return (dispatch: AppDispatch) => {
+        authAPI.me()
+            .then(response => {
+                if (response.resultCode === 0) {
+                    console.log(response.data)
+                    return response.data.id
+                }
+            })
+            .then(id => {
+                dispatch(getProfileUser(id))
+                dispatch(getProfileStatus(id))
+            })
+
+    }
+}
+
+export const getProfileUser = (userId: string): AppThunk => {
 
     return (dispatch: AppDispatch) => {
-        userAPI.getProfile(+userId)
+        profileAPI.getProfile(userId)
             .then(response => {
                 dispatch(setUserProfileAC(response))
+                return response.userId
             })
     }
 }
 
+export const setProfileStatus = (status: string): AppThunk => {
+
+    let statusJson = {"status": status}
+
+    return (dispatch: AppDispatch) => {
+        profileAPI.updateStatus(statusJson)
+            .then(response => {
+
+                if (response.data.resultCode === 0) {
+                    dispatch(setProfileStatusAC(status))
+                }
+                return response
+            })
+    }
+}
+
+export const getProfileStatus = (userId: string): AppThunk => {
+
+    return (dispatch: AppDispatch) => {
+
+        profileAPI.getStatus(userId)
+            .then(response => {
+                console.log(response)
+                dispatch(setProfileStatusAC(response))
+            })
+    }
+}
+
+
 export default profileReducer
+
+
+

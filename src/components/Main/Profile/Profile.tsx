@@ -6,17 +6,19 @@ import Spinner from "../../common/spinner/Spinner";
 import Contacts from "./contacts/Contacts";
 import yesImg from '../../../images/yes.svg';
 import noImg from '../../../images/no.svg';
+import ProfileStatus from "./status/ProfileStatus";
 
 
 type ProfilePropsType = {
     profile: ProfileUserType
+    setProfileStatus: (status: string) => void
+    status: string
 }
 
 const Profile = (props: ProfilePropsType) => {
     if (Object.keys(props.profile).length < 1) {
         return <Spinner show={true}/>
     }
-
 
     let {
         aboutMe,
@@ -37,8 +39,9 @@ const Profile = (props: ProfilePropsType) => {
                 <div className={c.info}>
                     <h2 className={c.name}>{fullName}</h2>
                     <p className={c.about}><span className={c.shadow}>About me:</span> {aboutMe}</p>
+                    <ProfileStatus status={props.status} className={c.shadow+' '+c.about} setProfileStatus={props.setProfileStatus}/>
                     <div className={c.jobBlock}>
-                        <p className={c.jobLabel+' '+c.shadow}>Looking for a job:</p>
+                        <p className={c.jobLabel + ' ' + c.shadow}>Looking for a job:</p>
                         <img className={c.jobImg} src={lookingForAJob ? yesImg : noImg} alt="yes/no img"/>
                     </div>
                     <p className={c.jobDescr}><span className={c.shadow}>What kind of job:</span> {jobDescr}</p>

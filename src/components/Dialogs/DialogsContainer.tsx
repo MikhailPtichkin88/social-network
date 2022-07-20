@@ -1,4 +1,4 @@
-import React, {Component, ComponentType} from 'react';
+import React, {ComponentType} from 'react';
 import Dialogs from "./Dialogs";
 import {ReduxStoreType} from "../../redux/redux-store";
 import {connect} from "react-redux";
@@ -12,7 +12,7 @@ let MapStateToProps = (state: ReduxStoreType) => ({
 })
 
 export default compose<ComponentType>(
-    connect<MapStateToPropsType, {}, {}, ReduxStoreType>(MapStateToProps, {}),
+    connect<MapStateToPropsType,{},{},ReduxStoreType>(MapStateToProps),
     AuthRedirect
 )(Dialogs)
 

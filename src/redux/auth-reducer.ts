@@ -1,7 +1,7 @@
 import {AppDispatch, AppThunk} from "./redux-store";
-import {userAPI} from "../api/api";
+import {authAPI, profileAPI, userAPI} from "../api/api";
 import {setIsFollowingAC, unFollowChangerAC} from "./users-reducer";
-import {getProfileUser} from "./profile-reducer";
+import {getProfileStatus, getProfileUser, setProfileStatusAC} from "./profile-reducer";
 
 export type AuthUserType = {
     userId: null | string,
@@ -68,34 +68,21 @@ export const setAuthUserPhotoAC = (photo: string) => {
 export const getMyIdWithPhoto = (): AppThunk => {
     return (dispatch: AppDispatch) => {
 
-        userAPI.getMyId()
+        authAPI.me()
             .then(response => {
                 if (response.resultCode === 0) {
                     let {email, id, login} = response.data
-                    console.log(response)
                     let data: AuthUserType = {userId: id, email, login, isAuth: true}
                     dispatch(setAuthUserDataAC(data))
                 }
                 return response
             })
             .then((response) => {
-                userAPI.getProfile(response.data.id)
+                profileAPI.getProfile(response.data.id)
                     .then(response => {
                         dispatch(setAuthUserPhotoAC(response.photos.small))
                     })
             })
     }
 }
-export const getMyIdProfile = (): AppThunk => {
-    return (dispatch: AppDispatch) => {
-        userAPI.getMyId()
-            .then(response => {
-                if (response.resultCode === 0) {
-                    return response.data.id
-                }
-            })
-            .then(id =>{
-                return dispatch(getProfileUser(id))
-            })
-    }
-}
+

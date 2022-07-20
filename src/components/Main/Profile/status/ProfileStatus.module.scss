@@ -1,0 +1,28 @@
+.status{
+  display: inline-block;
+}
+.span{
+  padding: 4px 10px;
+  display: inline-block;
+  font-size: 18px;
+}
+
+.span,
+.input{
+  margin-left: 20px;
+  padding: 4px 10px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  &:focus{
+    outline:transparent;
+  }
+}
+
+.error{
+  border-color:red;
+}
+
+.errorText{
+  color:red;
+  padding-left: 10px;
+}

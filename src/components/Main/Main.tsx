@@ -6,17 +6,19 @@ import PostsContainer from "./Posts/PostsContainer";
 import {ProfileUserType} from "../../redux/profile-reducer";
 
 type MainPropsType = {
-    profile:ProfileUserType
+    profile: ProfileUserType
+    setProfileStatus: (status: string) => void
+    status: string
 }
 
-const Main = (props:MainPropsType) => {
+const Main = (props: MainPropsType) => {
     return (
         <>
             <div className={c.main}>
 
                 <img className={c.bg_img} src={bg} alt="background image"/>
 
-                <Profile profile={props.profile}/>
+                <Profile status={props.status} setProfileStatus={props.setProfileStatus} profile={props.profile}/>
 
                 <PostsContainer/>
             </div>

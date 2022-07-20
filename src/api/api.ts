@@ -27,20 +27,29 @@ export const userAPI = {
         return instance.delete(`follow/${userId}`)
             .then(response => response.data)
     },
-    getMyId() {
+}
+
+export const authAPI = {
+    me() {
         return instance.get(`auth/me`)
             .then(response => response.data)
-    },
-    getProfile(userId: number) {
+    }
+}
+
+export const profileAPI = {
+    getProfile(userId: string) {
         return instance.get(`profile/${userId}`)
             .then(response => response.data)
+    },
+
+    getStatus(userId: string) {
+        return instance.get(`profile/status/${userId}`)
+            .then(response => response.data)
+    },
+
+    updateStatus(status:any){
+        return instance.put(`profile/status`, status)
+            .then(response => response.data)
     }
 }
-
-export const authAPI ={
-    me(){
-        return instance.get(`auth/me`)
-    }
-}
-
 
