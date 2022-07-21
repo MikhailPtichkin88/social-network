@@ -2,6 +2,7 @@ import {AppDispatch, AppThunk} from "./redux-store";
 import {authAPI, profileAPI, userAPI} from "../api/api";
 import {setIsFollowingAC, unFollowChangerAC} from "./users-reducer";
 import {getProfileStatus, getProfileUser, setProfileStatusAC} from "./profile-reducer";
+import {formDataType} from "../components/Login/Login";
 
 export type AuthUserType = {
     userId: null | string,
@@ -85,4 +86,5 @@ export const getMyIdWithPhoto = (): AppThunk => {
             })
     }
 }
+
 

@@ -33,6 +33,25 @@ export const authAPI = {
     me() {
         return instance.get(`auth/me`)
             .then(response => response.data)
+    },
+
+    login(email: string, password: string, rememberMe: boolean, captcha: boolean) {
+        return instance.post(`auth/login`, {
+            "email": email,
+            "password": password,
+            "rememberMe": rememberMe,
+            "captcha": captcha
+        })
+            .then(response => {
+                if (response.data.resultCode === 0){
+                    return response.data
+                }else{
+                    console.log(response)
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
 }
 
@@ -47,7 +66,7 @@ export const profileAPI = {
             .then(response => response.data)
     },
 
-    updateStatus(status:any){
+    updateStatus(status: any) {
         return instance.put(`profile/status`, status)
             .then(response => response.data)
     }

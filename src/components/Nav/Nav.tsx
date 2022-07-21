@@ -30,7 +30,7 @@ const Nav = (props:SidebarAvatarsPropsType) => {
                         <NavLink className={c.link} to="/users" activeClassName={c.active}>Users</NavLink>
                     </li>
                     <li className={c.list}>
-                        <a className={c.link} href="/settings">Settings</a>
+                        <a className={c.link} href="/login">login</a>
                     </li>
                 </ul>
 
