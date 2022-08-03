@@ -5,11 +5,9 @@ import Sidebar from "./Sidebar/Sidebar";
 import {AvatarsType} from "../../redux/sidebar-reducer";
 
 
-export type SidebarAvatarsPropsType = {
-    sidebarAvatars:Array<AvatarsType>
-}
 
-const Nav = (props:SidebarAvatarsPropsType) => {
+
+const Nav = () => {
     return (
         <>
             <nav className={c.nav}>
@@ -30,11 +28,11 @@ const Nav = (props:SidebarAvatarsPropsType) => {
                         <NavLink className={c.link} to="/users" activeClassName={c.active}>Users</NavLink>
                     </li>
                     <li className={c.list}>
-                        <a className={c.link} href="/login">login</a>
+                        <NavLink className={c.link} to="/login" activeClassName={c.active}>login</NavLink>
                     </li>
                 </ul>
 
-                <Sidebar sidebarAvatars={props.sidebarAvatars}/>
+                <Sidebar />
 
             </nav>
         </>

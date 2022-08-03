@@ -2,11 +2,8 @@ import {v1} from "uuid";
 import {PhotosType} from "./users-reducer";
 import {AppDispatch, AppThunk} from "./redux-store";
 import {authAPI, profileAPI} from "../api/api";
-import React, {useEffect} from "react";
-import Main from "../components/Main/Main";
 
 
-// другой вариант типизации
 export type PostsType = {
     id: string
     message: string
@@ -39,7 +36,6 @@ let initialState = {
         {id: v1(), message: 'second post', likeCount: 4},
         {id: v1(), message: 'How are you?', likeCount: 5}
     ] as Array<PostsType>,                                  // !!!
-    newPostText: "",
     profile: {} as ProfileUserType,
     status: ""
 }
@@ -54,10 +50,8 @@ const profileReducer = (state = initialState, action: ProfileActionType): Profil
                 message: action.postMessage,
                 likeCount: 0
             }
-            return {...state, posts: [newPost, ...state.posts], newPostText: ""}
+            return {...state, posts: [newPost, ...state.posts]}
 
-        case "CHANGE-POST-TEXT":
-            return {...state, newPostText: action.textMessage}
         case'SET-USER-PROFILE':
             return {...state, profile: {...state.profile, ...action.payload.profile}}
         case "SET-STATUS":
@@ -68,12 +62,11 @@ const profileReducer = (state = initialState, action: ProfileActionType): Profil
 }
 
 export type ProfileActionType =
-    addPostActionCreatorType
-    | changePostActionCreatorType
+    | addPostActionCreatorType
     | setUserProfileACType
     | setProfileStatusType
+
 type addPostActionCreatorType = ReturnType<typeof addPostActionCreator>
-type changePostActionCreatorType = ReturnType<typeof changePostActionCreator>
 type setUserProfileACType = ReturnType<typeof setUserProfileAC>
 type setProfileStatusType = ReturnType<typeof setProfileStatusAC>
 
@@ -81,13 +74,6 @@ export const addPostActionCreator = (text: string) => {
     return {
         type: "ADD-POST",
         postMessage: text,
-    } as const
-}
-
-export const changePostActionCreator = (text: string) => {
-    return {
-        type: "CHANGE-POST-TEXT",
-        textMessage: text,
     } as const
 }
 
@@ -109,7 +95,6 @@ export const setProfileStatusAC = (status: string) => {
     } as const
 }
 
-
 export const getMyIdProfile = (): AppThunk => {
     return (dispatch: AppDispatch) => {
         authAPI.me()
@@ -123,15 +108,14 @@ export const getMyIdProfile = (): AppThunk => {
                 dispatch(getProfileUser(id))
                 dispatch(getProfileStatus(id))
             })
-
     }
 }
 
 export const getProfileUser = (userId: string): AppThunk => {
-
     return (dispatch: AppDispatch) => {
-        profileAPI.getProfile(userId)
+      profileAPI.getProfile(userId)
             .then(response => {
+                console.log(response)
                 dispatch(setUserProfileAC(response))
                 return response.userId
             })

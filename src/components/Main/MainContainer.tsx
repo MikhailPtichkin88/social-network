@@ -1,12 +1,8 @@
-import React, {ComponentType, useEffect} from 'react';
+import React, {ComponentType} from 'react';
 import {ReduxStoreType} from "../../redux/redux-store";
 import Main from "./Main";
 import {connect} from "react-redux";
-import {
-    getMyIdProfile,
-    getProfileStatus,
-    getProfileUser, setProfileStatus,
-} from "../../redux/profile-reducer";
+import {getMyIdProfile, getProfileStatus, getProfileUser, setProfileStatus,} from "../../redux/profile-reducer";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import AuthRedirect from "../../hoc/AuthRedirect";
 import {compose} from "redux";
@@ -15,25 +11,32 @@ import {compose} from "redux";
 class MainContainer extends React.Component<MainContainerPropsType, {}> {
 
     componentDidMount() {
-        let userId = this.props.match.params.userId ?  this.props.match.params.userId  :  this.props.auth.userId || ''
+
+        let userId = this.props.match.params.userId
+        if (!userId) {
+            if (this.props.auth.userId != null) {
+                userId = this.props.auth.userId
+                if(!userId){
+                    this.props.history.push('/login')
+                }
+            }
+        }
         this.props.getProfileUser(userId)
         this.props.getProfileStatus(userId)
-
     }
 
     componentDidUpdate(prevProps: any) {
 
-        let userId = this.props.match.params.userId ||this.props.auth.userId
-         let prevUserId = prevProps.match.params.userId || prevProps.auth.userId
-         console.log({userId, prevUserId})
-         if (userId !== prevUserId) {
-             if (userId !== null) {
-                 this.props.getProfileUser(userId)
-             }
-             if (userId !== null) {
-                 this.props.getProfileStatus(userId)
-             }
-         }
+        let userId = this.props.match.params.userId || this.props.auth.userId
+        let prevUserId = prevProps.match.params.userId || prevProps.auth.userId
+        if (userId !== prevUserId) {
+            if (userId !== null) {
+                this.props.getProfileUser(userId)
+            }
+            if (userId !== null) {
+                this.props.getProfileStatus(userId)
+            }
+        }
     }
 
     render() {

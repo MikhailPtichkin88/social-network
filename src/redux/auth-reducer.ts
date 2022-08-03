@@ -1,8 +1,6 @@
 import {AppDispatch, AppThunk} from "./redux-store";
 import {authAPI, profileAPI, userAPI} from "../api/api";
-import {setIsFollowingAC, unFollowChangerAC} from "./users-reducer";
-import {getProfileStatus, getProfileUser, setProfileStatusAC} from "./profile-reducer";
-import {formDataType} from "../components/Login/Login";
+import {stopSubmit} from "redux-form";
 
 export type AuthUserType = {
     userId: null | string,
@@ -56,7 +54,7 @@ export const setAuthUserDataAC = (data: AuthUserType) => {
     } as const
 }
 export type SetUserPhotoType = ReturnType<typeof setAuthUserPhotoAC>
-export const setAuthUserPhotoAC = (photo: string) => {
+export const setAuthUserPhotoAC = (photo: string | null) => {
     return {
         type: 'SET-USER-PHOTO',
         payload: {
@@ -66,23 +64,55 @@ export const setAuthUserPhotoAC = (photo: string) => {
 }
 
 
-export const getMyIdWithPhoto = (): AppThunk => {
+export const getMyData = (): AppThunk => {
     return (dispatch: AppDispatch) => {
 
-        authAPI.me()
+       return authAPI.me()
             .then(response => {
                 if (response.resultCode === 0) {
                     let {email, id, login} = response.data
                     let data: AuthUserType = {userId: id, email, login, isAuth: true}
                     dispatch(setAuthUserDataAC(data))
+                } else if (response.resultCode === 1) {
+                    console.log("You are not authorized")
                 }
                 return response
             })
-            .then((response) => {
-                profileAPI.getProfile(response.data.id)
-                    .then(response => {
-                        dispatch(setAuthUserPhotoAC(response.photos.small))
-                    })
+    }
+}
+
+export const login = (email: string, password: string, rememberMe: boolean): AppThunk => {
+    return (dispatch: AppDispatch) => {
+
+
+        authAPI.login(email, password, rememberMe)
+            .then(response => {
+
+                if (response.data.resultCode === 0) {
+                    dispatch(getMyData())
+                } else {
+                    let messages = response.data.messages.length >= 1 ? response.data.messages[0] : "Some error"
+
+                    dispatch(stopSubmit("login", {_error: `${messages}`}))
+                }
+
+            })
+    }
+}
+
+export const logout = (): AppThunk => {
+    return (dispatch: AppDispatch) => {
+
+        authAPI.logout()
+            .then(res => {
+                let data: AuthUserType = {
+                    userId: null,
+                    email: null,
+                    login: null,
+                    isAuth: false,
+                }
+                dispatch(setAuthUserDataAC(data))
+                dispatch(setAuthUserPhotoAC(null))
             })
     }
 }

@@ -8,11 +8,12 @@ type HeaderPropsType = {
     isAuth: boolean
     login: string | null
     photo?: string | null
-    id:string| null
+    id: string | null
+    logout:()=>void
 }
 
 const Header = (props: HeaderPropsType) => {
-console.log(props)
+    console.log(props)
     let imgSrc = (props.photo) ? (props.photo) : ava
     return (
         <>
@@ -25,7 +26,10 @@ console.log(props)
                             <img className={c.avatar} src={imgSrc} alt='avatar'/>
                             {
                                 props.isAuth
-                                    ? <NavLink className={c.userName} to={'/profile/'+props.id}>{props.login}</NavLink>
+                                    ? <div>
+                                        <NavLink className={c.userName} to={'/profile/' + props.id}>{props.login}</NavLink>
+                                        <button onClick={props.logout}>Logout</button>
+                                    </div>
                                     : <NavLink className={c.loginLink} to={'/Login'}>Login</NavLink>
                             }
                         </div>

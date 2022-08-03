@@ -12,6 +12,14 @@ import Users from './Users';
 import Spinner from "../common/spinner/Spinner";
 import AuthRedirect from "../../hoc/AuthRedirect";
 import {compose} from "redux";
+import {
+    getCurrentPage,
+    getIsFetching,
+    getIsFollowingInProgress,
+    getPageSize,
+    getTotalUsersCount,
+    getUsersList, getUsersSuperSelector
+} from "../../redux/user-selectors";
 
 
 class UsersAPI extends React.Component<UsersPropsType, ReduxStoreType> {   //типизация <пропсов, стейта>
@@ -48,14 +56,25 @@ export type UsersPropsType = MapStateToPropsType & MapDispatchToProps
 type MapStateToPropsType = ReturnType<typeof mapStateToProps>
 let mapStateToProps = (state: ReduxStoreType) => {
     return {
-        users: state.usersPage.users as Array<UserType>,
-        pageSize: state.usersPage.pageSize,
-        totalUsersCount: state.usersPage.totalUsersCount,
-        currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
-        isFollowingInProgress: state.usersPage.isFollowingInProgress as number[]
+        users: getUsersSuperSelector(state),
+        pageSize: getPageSize(state),
+        totalUsersCount: getTotalUsersCount(state),
+        currentPage: getCurrentPage(state),
+        isFetching: getIsFetching(state),
+        isFollowingInProgress: getIsFollowingInProgress(state) as number[]
     }
 }
+//переписали через селекторы -> redux -> user-selectors
+// let mapStateToProps = (state: ReduxStoreType) => {
+//     return {
+//         users: state.usersPage.users as Array<UserType>,
+//         pageSize: state.usersPage.pageSize,
+//         totalUsersCount: state.usersPage.totalUsersCount,
+//         currentPage: state.usersPage.currentPage,
+//         isFetching: state.usersPage.isFetching,
+//         isFollowingInProgress: state.usersPage.isFollowingInProgress as number[]
+//     }
+// }
 type MapDispatchToProps = {
     currentPageChangerAC: (value: number) => void
     getUsers: (currentPage: number, pageSize: number) => void
@@ -70,7 +89,7 @@ export const UsersContainer = compose<ComponentType>(
         followSuccess,
         unfollowSuccess,
     }),
-    AuthRedirect
+
 )(UsersAPI)
 
 

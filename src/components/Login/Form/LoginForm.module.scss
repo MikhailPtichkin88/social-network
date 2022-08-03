@@ -1,0 +1,24 @@
+.wrapper{
+  margin-bottom: 25px;
+  position: relative;
+}
+.input{
+  border: 2px solid red;
+  min-height: 25px;
+}
+.span{
+  position: absolute;
+  bottom: -18px;
+  left: 5px;
+  color: red;
+}
+
+.label{
+  position: absolute;
+ top: 2px ;
+  left: 25px;
+}
+.errorAll{
+  border: 1px solid red;
+  color: red;
+}

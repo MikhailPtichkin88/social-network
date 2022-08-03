@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, {AxiosResponse} from "axios";
 
 const instance = axios.create({
     withCredentials: true,
@@ -7,6 +7,13 @@ const instance = axios.create({
         'API-KEY': '9df85157-ef47-4383-94d5-5e90e6d2a59b'
     },
 })
+
+type ResponseType<T> = {
+    resultCode: number
+    messages: string[],
+    data: T
+}
+
 
 export const userAPI = {
 
@@ -35,23 +42,21 @@ export const authAPI = {
             .then(response => response.data)
     },
 
-    login(email: string, password: string, rememberMe: boolean, captcha: boolean) {
-        return instance.post(`auth/login`, {
+    login(email: string, password: string, rememberMe: boolean = false) {
+        return instance.post<ResponseType<{userId: number}>>(`auth/login`, {
             "email": email,
             "password": password,
             "rememberMe": rememberMe,
-            "captcha": captcha
+            "captcha": true
         })
-            .then(response => {
-                if (response.data.resultCode === 0){
-                    return response.data
-                }else{
-                    console.log(response)
-                }
+    },
+
+    logout(){
+        return instance.delete<ResponseType<{}>>(`auth/login`)
+            .then(res=>{
+                if(res.data.resultCode === 0) console.log("Successful logout")
             })
-            .catch(error => {
-                console.log(error)
-            })
+            .catch(err=> console.log(err))
     }
 }
 

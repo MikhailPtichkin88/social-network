@@ -1,8 +1,8 @@
 {
-  "name": "samurai-way",
+  "name": "social-network",
   "version": "0.1.0",
   "private": true,
-  "homepage": "",
+  "homepage": "https://MikhailPtichkin88.github.io/social-network",
   "dependencies": {
     "@testing-library/jest-dom": "5.14.1",
     "@testing-library/react": "12.0.0",
@@ -22,7 +22,7 @@
     "redux": "^4.2.0",
     "redux-form": "^8.3.8",
     "redux-thunk": "^2.4.1",
-    "reselect": "4.1.5",
+    "reselect": "^4.1.6",
     "sass": "^1.51.0",
     "typescript": "4.4.2",
     "uuid": "^8.3.2",

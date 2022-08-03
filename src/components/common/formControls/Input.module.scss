@@ -1,0 +1,13 @@
+.form{
+  margin-bottom: 20px;
+  position: relative;
+}
+.error{
+  border: 2px solid red;
+}
+.errorMsg{
+  position: absolute;
+  bottom: -15px;
+  left: 5px;
+  color: red;
+}

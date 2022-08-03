@@ -1,14 +1,17 @@
 import React from 'react';
 import c from './AsideFriends.module.scss'
 import AsideFriend from "./AsideFriend/AsideFriend";
-import {SidebarAvatarsPropsType} from "../../Nav";
+import {AvatarsType} from "../../../../redux/sidebar-reducer";
 
+type PropsType = {
+    avatars:Array<AvatarsType>
+}
 
-const AsideFriends = (props: SidebarAvatarsPropsType) => {
+const AsideFriends = (props: PropsType) => {
     return (
         <ul className={c.friends_list}>
             {
-                props.sidebarAvatars.map(t =>{
+                props.avatars.map(t =>{
                     return <AsideFriend key={t.id} id={t.id} friend={t.friend} avatar={t.avatar}/>
                 })
             }
